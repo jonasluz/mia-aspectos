@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnalisadorSintaticoLogico
 {
@@ -11,16 +7,22 @@ namespace AnalisadorSintaticoLogico
         static void Main(string[] args)
         {
             if (args.Length < 1)
-            QuitWithError("Expressão não informada.\nUse AnalisadorSintaticoLogico <expressao>");
+                QuitWithError("Expressão não informada.\nUse AnalisadorSintaticoLogico <expressao>");
 
             string expr = args[0];
             AnalisadorSintaticoLogico asl = new AnalisadorSintaticoLogico();
-            if (asl.Valida(expr))
-            {
-                Console.WriteLine("Expressão válida.");
-                Console.WriteLine(asl.Tree);
-            } else 
+            bool valid = asl.Valida(expr);
+            string result = valid ? "válida" : "inválida!";
+            Console.WriteLine("Expressão: " + expr + " é " + result);
+
+            if (!valid)
                 QuitWithError(asl.Error);
+
+            if (args.Length > 1 && args[1].Equals("-t"))
+            {
+                Console.WriteLine("== ÁRVORE ==\n");
+                Console.WriteLine(asl.Tree);
+            }
 
             Environment.Exit(0);
         }

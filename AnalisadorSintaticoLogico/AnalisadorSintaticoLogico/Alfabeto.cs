@@ -61,7 +61,7 @@ namespace AnalisadorSintaticoLogico
 
         public static Operador OperadorWithToken(char token)
         {
-            return ExtraLogicos.Contains(token) ? s_TokenOperador[token] : Operador.NULO;
+            return s_TokenOperador.Keys.Contains(token) ? s_TokenOperador[token] : Operador.NULO;
         }
 
     }
