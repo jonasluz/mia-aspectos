@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AnalisadorSintaticoLogico
+namespace JALJ_MIA_Fundamentos
 {
     class Parser
     {
-        private static readonly string ERR_SIMBOLO =
+        private static readonly string ERR_SYMBOL =
             "Símbolo {0} inesperado em {1}. São esperados: {2}";
-        private static readonly string ERR_SIMBOLODESCONHECIDO =
+        private static readonly string ERR_UNKNOWNSYMBOL =
             "Símbolo {0} em {1} é desconhecido pela linguagem.";
-        private static readonly string ERR_PARENTESES =
+        private static readonly string ERR_PARENS =
             "O fechamento dos parênteses está incompleto. Há {0} {1} a mais.";
 
         public string Error
@@ -31,11 +29,11 @@ namespace AnalisadorSintaticoLogico
             for(int i = 0; i < expr.Length; i++)
             {
                 char token = expr[i];
-                Linguagem.Simbolo simbolo = Linguagem.Ling.TokenOf(token);
+                Language.Symbol symbol = Language.Lang.SymbolOf(token);
 
-                if (simbolo == Linguagem.Simbolo.INVALIDO)
+                if (symbol == Language.Symbol.INVALIDO)
                 { // Símbolo desconhecido.
-                    CreateError(ERR_SIMBOLODESCONHECIDO, token, i);
+                    CreateError(ERR_UNKNOWNSYMBOL, token, i);
                     return false;
                 }
 
@@ -43,32 +41,32 @@ namespace AnalisadorSintaticoLogico
                 string valid;
                 if (tokenized.Count == 0)
                 { // início da expressão.
-                    isValid = Linguagem.Ling.EhInicialValida(token);
-                    valid = string.Join<Linguagem.Simbolo>(",", Linguagem.Ling.IniciaisValidas);
+                    isValid = Language.Lang.IsValidInitial(token);
+                    valid = string.Join<Language.Symbol>(",", Language.Lang.Initial);
                 } else
                 { // intermeio da expressão.
-                    Linguagem.Simbolo previous = tokenized.Last().type;
-                    isValid = Linguagem.Ling.Follows(simbolo, previous);
-                    valid = string.Join<Linguagem.Simbolo>(",", Linguagem.Ling.TiposEsperados[previous]);
+                    Language.Symbol previous = tokenized.Last().type;
+                    isValid = Language.Lang.Follows(symbol, previous);
+                    valid = string.Join<Language.Symbol>(",", Language.Lang.Expected[previous]);
                 }
                 
                 if (isValid)
                 {
-                    tokenized.Add(new Token(simbolo, token));
+                    tokenized.Add(new Token(symbol, token));
                 } else
                 {
-                    CreateError(ERR_SIMBOLO, new object[] { token, i, valid });
+                    CreateError(ERR_SYMBOL, new object[] { token, i, valid });
                     return false;
                 }
 
-                if (simbolo == Linguagem.Simbolo.ABERTURA) opened++;
-                if (simbolo == Linguagem.Simbolo.FECHAMENTO) opened--;
+                if (symbol == Language.Symbol.ABERTURA) opened++;
+                if (symbol == Language.Symbol.FECHAMENTO) opened--;
             }
 
             if (opened != 0)
             {
                 char paren = opened < 1 ? ')' : '(';
-                CreateError(ERR_PARENTESES, new object[] { Math.Abs(opened), paren });
+                CreateError(ERR_PARENS, new object[] { Math.Abs(opened), paren });
                 return false;
             }
 

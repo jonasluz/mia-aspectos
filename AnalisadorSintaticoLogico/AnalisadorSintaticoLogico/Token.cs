@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AnalisadorSintaticoLogico
+﻿
+namespace JALJ_MIA_Fundamentos
 {
     struct Token
     {
-        public Linguagem.Simbolo type;
+        public Language.Symbol type;
         public char value;
 
-        public Token(Linguagem.Simbolo simbolo, char value)
+        public Token(Language.Symbol symbol, char value)
         {
-            this.type = simbolo;
+            this.type = symbol;
             this.value = value;
         }
     }
