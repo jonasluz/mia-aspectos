@@ -30,7 +30,7 @@ namespace JALJ_MIA_Fundamentos
             get; set; 
         }
 
-        public List<Token> Tokenized
+        public List<Token> Tokens
         {
             get; private set;
         }
@@ -40,7 +40,7 @@ namespace JALJ_MIA_Fundamentos
         #region Construtor
         public Tokenizer()
         {
-            Tokenized = new List<Token>();
+            Tokens = new List<Token>();
         }
         #endregion Construtor
 
@@ -65,21 +65,22 @@ namespace JALJ_MIA_Fundamentos
 
                 bool isValid;
                 string valid;
-                if (Tokenized.Count == 0)
+                if (Tokens.Count == 0)
                 { // início da expressão.
                     isValid = Language.Lang.IsValidInitial(token);
                     valid = string.Join<Language.Symbol>(",", Language.Lang.Initial);
                 }
                 else
                 { // intermeio da expressão.
-                    Language.Symbol previous = Tokenized.Last().type;
+                    Language.Symbol previous = Tokens.Last().type;
                     isValid = Language.Lang.Follows(symbol, previous);
                     valid = string.Join<Language.Symbol>(",", Language.Lang.Expected[previous]);
                 }
 
                 if (isValid)
                 {
-                    Tokenized.Add(new Token(symbol, token));
+                    if (symbol != Language.Symbol.VAZIO)        // vazios são ignorados.
+                        Tokens.Add(new Token(symbol, token));
                 }
                 else
                 {
