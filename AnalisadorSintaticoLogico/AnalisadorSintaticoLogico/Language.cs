@@ -125,6 +125,7 @@ namespace JALJ_MIA_Fundamentos
                 case '>':
                     return Symbol.OPER_IMPLICA;
                 case ' ':
+                case '-':
                     return Symbol.VAZIO;
                 default:
                     return IsValidLetter(token) ? Symbol.PROP : Symbol.INVALIDO;

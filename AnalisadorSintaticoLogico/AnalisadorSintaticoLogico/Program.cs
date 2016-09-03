@@ -19,14 +19,14 @@ namespace JALJ_MIA_Fundamentos
             string expr = args[0];
             Console.WriteLine("Expressão: " + expr + "\n");
 
-            Parser parser = new Parser();
+            Analyzer analyzer = new Analyzer(expr);
 
-            if (parser.Tokenize(expr))
+            if (analyzer.Tokenize())
             {
                 Console.WriteLine("Expressão válida");
             } else
             {
-                QuitWithError(parser.Error);
+                QuitWithError(analyzer.Error);
             }
         }
 

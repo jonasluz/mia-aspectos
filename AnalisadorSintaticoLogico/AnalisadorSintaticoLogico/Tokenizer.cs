@@ -37,8 +37,6 @@ namespace JALJ_MIA_Fundamentos
 
         #endregion Atributos públicos
 
-        int m_current;
-
         #region Construtor
         public Tokenizer()
         {
