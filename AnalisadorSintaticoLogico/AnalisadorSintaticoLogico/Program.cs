@@ -14,25 +14,31 @@ namespace JALJ_MIA_Fundamentos
         static void Main(string[] args)
         {
             if (args.Length == 0)
-                QuitWithError("Parâmetros necessários.\n" + INFO);
+                QuitWithError("\nParâmetros necessários.\n" + INFO);
 
             string expr = args[0];
-            Console.WriteLine("Expressão: " + expr + "\n");
+            Console.WriteLine("\nExpressão: " + expr + "\n");
 
             Analyzer analyzer = new Analyzer(expr);
 
             if (analyzer.Tokenize())
             {
-                Console.WriteLine("Expressão válida");
+                Console.WriteLine("Expressão válida!");
             } else
             {
-                QuitWithError(analyzer.Error);
+                QuitWithError(analyzer.Errors);
             }
         }
 
         static void QuitWithError(string error)
         {
-            Console.WriteLine(error);
+            QuitWithError(new string[] { error });
+        }
+        static void QuitWithError(ICollection<string> errors)
+        {
+            Console.WriteLine("Expressão Inválida!\n\nERROS ENCONTRADOS: ==============\n");
+            foreach(string error in errors)
+                Console.WriteLine(error);
             Environment.Exit(1);
         }
     }

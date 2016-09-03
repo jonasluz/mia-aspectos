@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JALJ_MIA_Fundamentos
 {
@@ -20,7 +18,7 @@ namespace JALJ_MIA_Fundamentos
 
         #region Atributos públicos
 
-        public string Error
+        public List<string> Error
         {
             get; private set;
         }
@@ -51,6 +49,7 @@ namespace JALJ_MIA_Fundamentos
             if (expr != "") Expr = expr;
 
             int opened = 0;
+            Error = new List<string>();
 
             for (int i = 0; i < expr.Length; i++)
             {
@@ -60,7 +59,7 @@ namespace JALJ_MIA_Fundamentos
                 if (symbol == Language.Symbol.INVALIDO)
                 { // Símbolo desconhecido.
                     CreateError(ERR_UNKNOWNSYMBOL, token, i);
-                    return false;
+                    continue;
                 }
 
                 bool isValid;
@@ -85,7 +84,7 @@ namespace JALJ_MIA_Fundamentos
                 else
                 {
                     CreateError(ERR_SYMBOL, new object[] { token, i, valid });
-                    return false;
+                    continue;
                 }
 
                 if (symbol == Language.Symbol.ABERTURA) opened++;
@@ -96,10 +95,9 @@ namespace JALJ_MIA_Fundamentos
             {
                 char paren = opened < 1 ? ')' : '(';
                 CreateError(ERR_PARENS, new object[] { Math.Abs(opened), paren });
-                return false;
             }
 
-            return true;
+            return Error.Count == 0;
 
         }
 
@@ -107,7 +105,7 @@ namespace JALJ_MIA_Fundamentos
 
         void CreateError(string msg, params object[] args)
         {
-            Error = string.Format(msg, args);
+            Error.Add(string.Format(msg, args));
         }
 
     }

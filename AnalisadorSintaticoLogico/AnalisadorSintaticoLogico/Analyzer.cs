@@ -6,7 +6,12 @@ namespace JALJ_MIA_Fundamentos
 {
     class Analyzer
     {
-        public string Error
+        public List<string> Errors
+        {
+            get; private set;
+        }
+
+        public List<string> Log
         {
             get; private set;
         }
@@ -24,13 +29,21 @@ namespace JALJ_MIA_Fundamentos
             m_tokenizer = new Tokenizer();
 
             bool result = m_tokenizer.Tokenize(m_expr);
-            if (!result) Error = m_tokenizer.Error;
+            if (!result) Errors = m_tokenizer.Error;
 
             return result;
         }
 
         public bool Parse()
         {
+            if (m_tokenizer == null)
+            {
+                Log.Add("Tokenizing will be called automatically.");
+                Tokenize();
+            }
+
+            List<Token> tokens = m_tokenizer.Tokens;
+
             return true;
         }
     }
