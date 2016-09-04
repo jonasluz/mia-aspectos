@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JALJ_MIA_Fundamentos
+namespace JALJ_MIA_ASLlib
 {
-    class Analyzer
+    public class Analyzer
     {
         public List<string> Errors
         {
@@ -25,7 +25,8 @@ namespace JALJ_MIA_Fundamentos
         }
 
         string m_expr;
-        Tokenizer m_tokenizer; 
+        Tokenizer m_tokenizer;
+        Parser m_parser;
 
         public Analyzer(string expr)
         {
@@ -52,8 +53,8 @@ namespace JALJ_MIA_Fundamentos
 
             List<Token> tokens = m_tokenizer.Tokens;
 
-            Parser parser = new Parser();
-            return parser.Parse(tokens);
+            m_parser = new Parser();
+            return m_parser.Parse(tokens);
         }
     }
 }

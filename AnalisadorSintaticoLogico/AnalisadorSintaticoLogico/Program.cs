@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using JALJ_MIA_ASLlib;
 
 namespace JALJ_MIA_Fundamentos
 {
     class Program
     {
         private static string INFO =
-            "Uso: AnalisadorSintaticoLogico <expressão>\n";
+            "Uso: AnalisadorSintaticoLogico [-<format>] <expressão>\n";
 
         /// <summary>
         /// Chamada principal ao programa.
@@ -14,11 +15,24 @@ namespace JALJ_MIA_Fundamentos
         /// <param name="args">Parâmetros</param>
         static void Main(string[] args)
         {
+            string expr = "";
+
             if (args.Length == 0)   // parâmetros não informados.
                 QuitWithError("\nParâmetros necessários.\n" + INFO);
-
+            else if (args.Length > 1)
+            {
+                expr = args[1];
+                string format = args[0];
+                if (format.Equals("-tree")) AST.format = ASTFormat.FormatType.TREE;
+                else if (format.Equals("-json")) AST.format = ASTFormat.FormatType.JSON;
+                else QuitWithError("\nParâmetro não reconhecido: " + format + "\n" + INFO);
+            } else
+            {
+                expr = args[0];
+            }
+            
             // Expressão informada.
-            string expr = args[0];
+            
             Console.WriteLine("\n=================================\nENTRADA: " + expr);
 
             // Analisador.

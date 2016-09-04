@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace JALJ_MIA_Fundamentos
+namespace JALJ_MIA_ASLlib
 {
-    class Parser
+    public class Parser
     {
 
         #region Atributos públicos

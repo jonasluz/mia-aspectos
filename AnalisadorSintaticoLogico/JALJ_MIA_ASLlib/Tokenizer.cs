@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JALJ_MIA_Fundamentos
+namespace JALJ_MIA_ASLlib
 {
-    class Tokenizer
+    public class Tokenizer
     {
 
         #region Mensagens de erro

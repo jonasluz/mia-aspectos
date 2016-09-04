@@ -1,14 +1,16 @@
-﻿namespace JALJ_MIA_Fundamentos
+﻿namespace JALJ_MIA_ASLlib
 {
-    abstract class AST
+    public abstract class AST
     {
+        public static ASTFormat.FormatType format = ASTFormat.FormatType.TREE;
+
         public override string ToString()
         {
-            return ASTFormat.Format(this);
+            return ASTFormat.Format(this, format);
         }
     }
 
-    class ASTProp : AST
+    public class ASTProp : AST
     {
         public char value;
 
@@ -18,7 +20,7 @@
         }
     }
 
-    class ASTOpUnary : AST
+    public class ASTOpUnary : AST
     {
         public Language.Symbol value;
         public AST ast;
@@ -30,7 +32,7 @@
         }
     }
 
-    class ASTOpBinary : AST
+    public class ASTOpBinary : AST
     {
         public Language.Symbol value;
         public AST left, right;

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace JALJ_MIA_Fundamentos
+namespace JALJ_MIA_ASLlib
 {
-    class ASTFormat
+    public class ASTFormat
     {
         public enum FormatType
         {
@@ -21,6 +21,9 @@ namespace JALJ_MIA_Fundamentos
                     IEnumerable<string> padded = PadTree(StrTree(ast), out len);
                     foreach (string line in padded)
                         result += line + "\n";
+                    break;
+                case FormatType.JSON:
+                    result = StrJson(ast);
                     break;
             }
 
@@ -86,6 +89,33 @@ namespace JALJ_MIA_Fundamentos
 
             len = max;
             return tree;
+        }
+
+        private static string StrJson(AST ast, int nesting = 0)
+        {
+            string pad = new string('\t', nesting);
+            string result = pad;
+
+            switch (ast.GetType().Name)
+            {
+
+                case "ASTProp":
+                    return "\"" + ((ASTProp)ast).value.ToString() + "\"";
+
+                case "ASTOpUnary":
+                    result = "\n" + pad + "{ \"operador\"\t: \"" + ((ASTOpUnary)ast).value.ToString().ToLower() + "\" \n";
+                    result += pad + "  \"proposicao\"\t: " + StrJson(((ASTOpUnary)ast).ast, nesting + 1) + "\n";
+                    break;
+
+                case "ASTOpBinary":
+                    result = "\n" + pad + "{ \"operador\" :\t\"" + ((ASTOpBinary)ast).value.ToString().ToLower() + "\" \n";
+                    result += pad + "  \"proposicoes\"\t: [ " + StrJson(((ASTOpBinary)ast).left, nesting + 1) + " , ";
+                    result += StrJson(((ASTOpBinary)ast).right, nesting + 1) + " ]\n";
+                    break;
+            } // switch
+
+            return result + pad + "}";
+
         }
 
         #endregion Métodos privados 

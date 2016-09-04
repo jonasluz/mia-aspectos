@@ -1,0 +1,4 @@
+E:\live_000\OneDrive\Educacao\MIA 2016\Projetos MIA\mia-fundamentos\AnalisadorSintaticoLogico\JALJ_MIA_ASLlib\bin\Debug\JALJ_MIA_ASLlib.dll
+E:\live_000\OneDrive\Educacao\MIA 2016\Projetos MIA\mia-fundamentos\AnalisadorSintaticoLogico\JALJ_MIA_ASLlib\bin\Debug\JALJ_MIA_ASLlib.pdb
+E:\live_000\OneDrive\Educacao\MIA 2016\Projetos MIA\mia-fundamentos\AnalisadorSintaticoLogico\JALJ_MIA_ASLlib\obj\Debug\JALJ_MIA_ASLlib.dll
+E:\live_000\OneDrive\Educacao\MIA 2016\Projetos MIA\mia-fundamentos\AnalisadorSintaticoLogico\JALJ_MIA_ASLlib\obj\Debug\JALJ_MIA_ASLlib.pdb

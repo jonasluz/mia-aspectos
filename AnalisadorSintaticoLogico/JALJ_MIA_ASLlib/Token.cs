@@ -1,7 +1,7 @@
 ﻿
-namespace JALJ_MIA_Fundamentos
+namespace JALJ_MIA_ASLlib
 {
-    struct Token
+    public struct Token
     {
         public Language.Symbol type;
         public char value;
