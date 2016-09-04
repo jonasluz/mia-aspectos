@@ -11,5 +11,10 @@ namespace JALJ_MIA_Fundamentos
             this.type = symbol;
             this.value = value;
         }
+
+        public override string ToString()
+        {
+            return this.type + "{ " + this.value + " }";
+        }
     }
 }

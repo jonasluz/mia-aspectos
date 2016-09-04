@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JALJ_MIA_Fundamentos
 {
@@ -11,25 +8,39 @@ namespace JALJ_MIA_Fundamentos
         private static string INFO =
             "Uso: AnalisadorSintaticoLogico <expressão>\n";
 
+        /// <summary>
+        /// Chamada principal ao programa.
+        /// </summary>
+        /// <param name="args">Parâmetros</param>
         static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length == 0)   // parâmetros não informados.
                 QuitWithError("\nParâmetros necessários.\n" + INFO);
 
+            // Expressão informada.
             string expr = args[0];
-            Console.WriteLine("\nExpressão: " + expr + "\n");
+            Console.WriteLine("\n=================================\nENTRADA: " + expr);
 
+            // Analisador.
             Analyzer analyzer = new Analyzer(expr);
 
             if (analyzer.Tokenize())
-            {
-                Console.WriteLine("Expressão válida!");
+            {   // tokenização (análise léxica) bem sucedida.
+                Console.Write("RESULTADO: Expressão válida!\nTOKENS: ");
+                foreach (Token token in analyzer.Tokens)
+                    Console.Write(token.value);
+                Console.WriteLine();
             } else
             {
                 QuitWithError(analyzer.Errors);
             }
+
+            AST ast = analyzer.Parse();
+            Console.WriteLine("AST:\n" + ast);
+            Console.WriteLine("=================================");
         }
 
+        #region Métodos privados
         static void QuitWithError(string error)
         {
             QuitWithError(new string[] { error });
@@ -41,5 +52,6 @@ namespace JALJ_MIA_Fundamentos
                 Console.WriteLine(error);
             Environment.Exit(1);
         }
+        #endregion Métodos privados
     }
 }

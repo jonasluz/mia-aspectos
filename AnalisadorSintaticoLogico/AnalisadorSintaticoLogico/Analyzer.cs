@@ -16,6 +16,14 @@ namespace JALJ_MIA_Fundamentos
             get; private set;
         }
 
+        public List<Token> Tokens
+        {
+            get
+            {
+                return m_tokenizer.Tokens;
+            }
+        }
+
         string m_expr;
         Tokenizer m_tokenizer; 
 
@@ -34,7 +42,7 @@ namespace JALJ_MIA_Fundamentos
             return result;
         }
 
-        public bool Parse()
+        public AST Parse()
         {
             if (m_tokenizer == null)
             {
@@ -44,7 +52,8 @@ namespace JALJ_MIA_Fundamentos
 
             List<Token> tokens = m_tokenizer.Tokens;
 
-            return true;
+            Parser parser = new Parser();
+            return parser.Parse(tokens);
         }
     }
 }
