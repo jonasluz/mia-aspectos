@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST.cs" />
+    <Compile Include="ASTFormat.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Analyzer.cs" />
     <Compile Include="Parser.cs" />

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace JALJ_MIA_Fundamentos
 {
@@ -38,7 +34,7 @@ namespace JALJ_MIA_Fundamentos
             return Ast;
         }
 
-        AST Walk(int nesting = 0, bool precede = false)
+        AST Walk(bool precede = false)
         {
             m_idx++;
             if (m_idx >= Tokens.Count) return null;
@@ -49,18 +45,18 @@ namespace JALJ_MIA_Fundamentos
             switch (token.type)
             {
                 case Language.Symbol.PROP:
-                    ast = new ASTProp(token.value, nesting);
+                    ast = new ASTProp(token.value);
                     break;
                 case Language.Symbol.OPER_NAO:
-                    ast = new ASTOpUnary(Walk(nesting + 1, true), token.type, nesting);
+                    ast = new ASTOpUnary(Walk(true), token.type);
                     break;
                 case Language.Symbol.OPER_E:
                 case Language.Symbol.OPER_OU:
                 case Language.Symbol.OPER_IMPLICA:
-                    ast = new ASTOpBinary(m_current, Walk(nesting, true), token.type, nesting);
+                    ast = new ASTOpBinary(m_current, Walk(true), token.type);
                     break;
                 case Language.Symbol.ABERTURA:
-                    while (Walk(nesting + 1, precede) != null)
+                    while (Walk(precede) != null)
                         ast = m_current;
                     break;
                 case Language.Symbol.FECHAMENTO:
@@ -69,7 +65,7 @@ namespace JALJ_MIA_Fundamentos
 
             m_current = ast;
 
-            if (!precede && m_idx < Tokens.Count) Walk(nesting);
+            if (!precede && m_idx < Tokens.Count) Walk();
 
             return m_current;
         }
