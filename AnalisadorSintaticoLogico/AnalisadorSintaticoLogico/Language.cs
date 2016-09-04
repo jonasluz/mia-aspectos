@@ -8,7 +8,7 @@ namespace JALJ_MIA_Fundamentos
         public enum Symbol
         {
             VAZIO, ABERTURA, FECHAMENTO, PROP,
-            OPER_E, OPER_OU, OPER_NAO, OPER_IMPLICA,
+            E, OU, NAO, IMPLICA,
             INVALIDO, TODOS
         }
 
@@ -56,25 +56,25 @@ namespace JALJ_MIA_Fundamentos
             Expected = new Dictionary<Symbol, List<Symbol>>()
             {
                 { Symbol.ABERTURA,
-                  new List<Symbol>() { Symbol.ABERTURA, Symbol.FECHAMENTO, Symbol.PROP, Symbol.VAZIO, Symbol.OPER_NAO }
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.FECHAMENTO, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.FECHAMENTO,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.OPER_NAO, Symbol.OPER_E, Symbol.OPER_OU, Symbol.OPER_IMPLICA }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.NAO, Symbol.E, Symbol.OU, Symbol.IMPLICA }
                 },
                 { Symbol.PROP,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.OPER_E, Symbol.OPER_OU, Symbol.OPER_IMPLICA }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.E, Symbol.OU, Symbol.IMPLICA }
                 },
-                { Symbol.OPER_E,
-                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.OPER_NAO }
+                { Symbol.E,
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
-                { Symbol.OPER_OU,
-                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.OPER_NAO }
+                { Symbol.OU,
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
-                { Symbol.OPER_IMPLICA,
-                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.OPER_NAO }
+                { Symbol.IMPLICA,
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
-                { Symbol.OPER_NAO,
-                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.OPER_NAO }
+                { Symbol.NAO,
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.VAZIO,
                   new List<Symbol>() { Symbol.TODOS }
@@ -84,7 +84,7 @@ namespace JALJ_MIA_Fundamentos
             // Iniciais válidas.
             Initial = new Symbol[]
             {
-                Symbol.ABERTURA, Symbol.OPER_NAO, Symbol.PROP, Symbol.VAZIO
+                Symbol.ABERTURA, Symbol.NAO, Symbol.PROP, Symbol.VAZIO
             };
         }
         #endregion Construtor
@@ -116,16 +116,20 @@ namespace JALJ_MIA_Fundamentos
                     return Symbol.ABERTURA;
                 case ')':
                     return Symbol.FECHAMENTO;
+                case '^':
                 case '&':
-                    return Symbol.OPER_E;
+                case '.':
+                    return Symbol.E;
+                case '+':
                 case '|':
-                    return Symbol.OPER_OU;
+                    return Symbol.OU;
                 case '~':
-                    return Symbol.OPER_NAO;
-                case '>':
-                    return Symbol.OPER_IMPLICA;
-                case ' ':
+                case '!':
                 case '-':
+                    return Symbol.NAO;
+                case '>':
+                    return Symbol.IMPLICA;
+                case ' ':
                     return Symbol.VAZIO;
                 default:
                     return IsValidLetter(token) ? Symbol.PROP : Symbol.INVALIDO;

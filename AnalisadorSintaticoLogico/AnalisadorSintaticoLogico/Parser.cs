@@ -47,12 +47,12 @@ namespace JALJ_MIA_Fundamentos
                 case Language.Symbol.PROP:
                     ast = new ASTProp(token.value);
                     break;
-                case Language.Symbol.OPER_NAO:
+                case Language.Symbol.NAO:
                     ast = new ASTOpUnary(Walk(true), token.type);
                     break;
-                case Language.Symbol.OPER_E:
-                case Language.Symbol.OPER_OU:
-                case Language.Symbol.OPER_IMPLICA:
+                case Language.Symbol.E:
+                case Language.Symbol.OU:
+                case Language.Symbol.IMPLICA:
                     ast = new ASTOpBinary(m_current, Walk(true), token.type);
                     break;
                 case Language.Symbol.ABERTURA:
