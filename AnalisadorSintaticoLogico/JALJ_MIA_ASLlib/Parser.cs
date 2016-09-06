@@ -20,7 +20,7 @@ namespace JALJ_MIA_ASLlib
         #endregion Atributos públicos
 
         int m_idx;
-        bool m_conditionals;
+        int m_conditionals;
         AST m_current;
 
         public AST Parse(List<Token> tokens = null)
@@ -56,19 +56,24 @@ namespace JALJ_MIA_ASLlib
                     break;
                 case Language.Symbol.CONDICIONAL:
                 case Language.Symbol.BICONDICIONAL:
-                    if (m_conditionals)
-                    {
+                    bool bi = token.type == Language.Symbol.BICONDICIONAL;
+                    bool forward =                      // sigo adiante se...
+                        m_conditionals == 0 ||          // ... não há condicional aguardando ou...
+                        (m_conditionals == 2 && !bi);   // ... bicondicional aguarda e atual é condicional simples.
+                    if (forward)
+                    {   // segue em frente.
+                        int conditionals = m_conditionals;
+                        m_conditionals = bi ? 2 : 1;
+                        ast = new ASTOpBinary(m_current, Walk(false), token.type);
+                        if (m_conditionals == 0) precede = false;
+                        m_conditionals = conditionals;
+                    } else 
+                    {   // conclui operação em andamento (recursão atual) para voltar depois.
                         m_idx--;
                         ast = m_current;
                         precede = true;
-                        m_conditionals = false;
+                        m_conditionals = 0;
                         break;
-                    }
-                    else
-                    {
-                        m_conditionals = true;
-                        ast = new ASTOpBinary(m_current, Walk(false), token.type);
-                        if (!m_conditionals) precede = false;
                     }
                     break;
                 case Language.Symbol.ABERTURA:
