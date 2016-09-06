@@ -20,8 +20,8 @@ namespace JALJ_MIA_ASLlib
         #endregion Atributos públicos
 
         int m_idx;
+        bool m_implies;
         AST m_current;
-        Stack<AST> m_opened = new Stack<AST>();
 
         public AST Parse(List<Token> tokens = null)
         {
@@ -52,8 +52,23 @@ namespace JALJ_MIA_ASLlib
                     break;
                 case Language.Symbol.E:
                 case Language.Symbol.OU:
-                case Language.Symbol.IMPLICA:
                     ast = new ASTOpBinary(m_current, Walk(true), token.type);
+                    break;
+                case Language.Symbol.IMPLICA:
+                    if (m_implies)
+                    {
+                        m_idx--;
+                        ast = m_current;
+                        precede = true;
+                        m_implies = false;
+                        break;
+                    }
+                    else
+                    {
+                        m_implies = true;
+                        ast = new ASTOpBinary(m_current, Walk(false), token.type);
+                        if (!m_implies) precede = false;
+                    }
                     break;
                 case Language.Symbol.ABERTURA:
                     while (Walk(precede) != null)
