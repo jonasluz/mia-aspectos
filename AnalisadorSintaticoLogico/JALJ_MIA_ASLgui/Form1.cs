@@ -92,6 +92,8 @@ namespace JALJ_MIA_ASLgui
         {
             // Limpa resultados na árvore.
             treeViewResult.Nodes.Clear();
+            // Limpa eventuais erros.
+            listBoxErrors.Items.Clear();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace JALJ_MIA_ASLlib
         public enum Symbol
         {
             VAZIO, ABERTURA, FECHAMENTO, PROP,
-            E, OU, NAO, IMPLICA,
+            E, OU, NAO, CONDICIONAL, BICONDICIONAL,
             INVALIDO, TODOS
         }
 
@@ -27,6 +27,8 @@ namespace JALJ_MIA_ASLlib
         private static Language s_instance;
         #endregion Singleton
 
+        #region Atributos públicos
+
         public char[] PropositionalLetter
         {
             get; private set;
@@ -41,6 +43,8 @@ namespace JALJ_MIA_ASLlib
         {
             get; private set;
         }
+
+        #endregion Atributos públicos
 
         #region Construtor
         /* Construtor */
@@ -59,10 +63,10 @@ namespace JALJ_MIA_ASLlib
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.FECHAMENTO, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.FECHAMENTO,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.NAO, Symbol.E, Symbol.OU, Symbol.IMPLICA }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.NAO, Symbol.E, Symbol.OU, Symbol.CONDICIONAL, Symbol.BICONDICIONAL }
                 },
                 { Symbol.PROP,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.E, Symbol.OU, Symbol.IMPLICA }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.E, Symbol.OU, Symbol.CONDICIONAL, Symbol.BICONDICIONAL }
                 },
                 { Symbol.E,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
@@ -70,7 +74,10 @@ namespace JALJ_MIA_ASLlib
                 { Symbol.OU,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
-                { Symbol.IMPLICA,
+                { Symbol.CONDICIONAL,
+                  new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
+                },
+                { Symbol.BICONDICIONAL,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.NAO,
@@ -128,7 +135,9 @@ namespace JALJ_MIA_ASLlib
                 case '-':
                     return Symbol.NAO;
                 case '>':
-                    return Symbol.IMPLICA;
+                    return Symbol.CONDICIONAL;
+                case '=':
+                    return Symbol.BICONDICIONAL;
                 case ' ':
                     return Symbol.VAZIO;
                 default:
