@@ -44,7 +44,11 @@ namespace JALJ_MIA_ASLgui
             { // Ocorreram erros na tokenização.
                 foreach (string error in asl.Errors)
                     listBoxErrors.Items.Add(error);
-                MessageBox.Show(string.Format("Há {0} erros identificados. Por favor, revise-os.", asl.Errors.Count()));
+                string alert = string.Format(
+                    "Há {0} erros identificados. Por favor, revise-os.", 
+                    asl.Errors.Count());
+                errorProviderInput.SetError(textBoxInput, alert);
+
                 return;
             }
 
@@ -93,6 +97,12 @@ namespace JALJ_MIA_ASLgui
             // Limpa resultados na árvore.
             treeViewResult.Nodes.Clear();
             // Limpa eventuais erros.
+            ClearErrorMsgs();
+        }
+
+        private void ClearErrorMsgs()
+        {
+            errorProviderInput.Clear();
             listBoxErrors.Items.Clear();
         }
     }

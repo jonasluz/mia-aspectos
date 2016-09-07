@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonSubmit = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeViewResult = new System.Windows.Forms.TreeView();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.errorProviderInput = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -45,6 +47,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -98,6 +101,18 @@
             this.buttonSubmit.UseVisualStyleBackColor = true;
             this.buttonSubmit.Click += new System.EventHandler(this.buttonSubmit_Click);
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(795, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(152, 29);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Limpar Resultados";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -137,17 +152,9 @@
             this.listBoxErrors.Size = new System.Drawing.Size(975, 113);
             this.listBoxErrors.TabIndex = 0;
             // 
-            // button1
+            // errorProviderInput
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(795, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(152, 29);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Limpar Resultados";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.errorProviderInput.ContainerControl = this;
             // 
             // FormMain
             // 
@@ -169,6 +176,7 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -183,6 +191,7 @@
         private System.Windows.Forms.TreeView treeViewResult;
         private System.Windows.Forms.ListBox listBoxErrors;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ErrorProvider errorProviderInput;
     }
 }
 
