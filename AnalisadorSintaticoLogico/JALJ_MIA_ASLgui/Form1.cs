@@ -1,47 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using JALJ_MIA_ASLlib;
 
 namespace JALJ_MIA_ASLgui
 {
+    /// <summary>
+    /// The main application form.
+    /// </summary>
     public partial class FormMain : Form
     {
+        #region Created by Form Designer
         public FormMain()
         {
             InitializeComponent();
         }
+        private void Form1_Load(object sender, EventArgs e) { ; }
+        #endregion Created by Form Designer
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+        #region Buttons actions
 
         private void buttonSubmit_Click(object sender, EventArgs e)
         {
-            // Limpa eventuais mensagens de erro de execução anterior.
+            // Clear previous execution error messages.
             listBoxErrors.Items.Clear();
 
-            // Executa análise.
+            // Run analysis.
             Execute();
         }
 
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            // Limpa resultados na árvore.
+            treeViewResult.Nodes.Clear();
+            // Limpa eventuais erros.
+            ClearErrorMsgs();
+        }
+
+        #endregion Button actions
+
+        /// <summary>
+        /// Analysis procedure.
+        /// </summary>
         private void Execute()
         {
+            // Expression input.
             string expr = textBoxInput.Text;
 
-            // Instancia o analisador sintático lógico.
+            // Creates a new analyzer for the expression.
             Analyzer asl = new Analyzer(expr);
 
-            // Tokeniza.
+            // Tokenization phase.
             if (!asl.Tokenize())
-            { // Ocorreram erros na tokenização.
+            { // There are errors from the tokenization. 
                 foreach (string error in asl.Errors)
                     listBoxErrors.Items.Add(error);
                 string alert = string.Format(
@@ -52,9 +63,10 @@ namespace JALJ_MIA_ASLgui
                 return;
             }
 
-            // Constrói a AST.
+            // Parsing phase.
             AST ast = asl.Parse();
 
+            // Convert the AST node to a tree view.
             TreeNode node = new TreeNode(expr);
             node.Nodes.Add(FillTree(ast));
             treeViewResult.Nodes.Add(node);
@@ -63,6 +75,11 @@ namespace JALJ_MIA_ASLgui
             node.ExpandAll();
         }
 
+        /// <summary>
+        /// Fill a treeview node with an AST node.
+        /// </summary>
+        /// <param name="ast">AST node</param>
+        /// <returns>AST's TreeView node representation</returns>
         private TreeNode FillTree(AST ast)
         {
             TreeNode node, child1, child2;
@@ -92,14 +109,9 @@ namespace JALJ_MIA_ASLgui
             return node;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Limpa resultados na árvore.
-            treeViewResult.Nodes.Clear();
-            // Limpa eventuais erros.
-            ClearErrorMsgs();
-        }
-
+        /// <summary>
+        /// Clear the error messages exibition control.
+        /// </summary>
         private void ClearErrorMsgs()
         {
             errorProviderInput.Clear();

@@ -34,7 +34,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonSubmit = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonClear = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeViewResult = new System.Windows.Forms.TreeView();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
@@ -75,7 +75,7 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.textBoxInput);
             this.flowLayoutPanel1.Controls.Add(this.buttonSubmit);
-            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.buttonClear);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -103,17 +103,17 @@
             this.buttonSubmit.UseVisualStyleBackColor = true;
             this.buttonSubmit.Click += new System.EventHandler(this.buttonSubmit_Click);
             // 
-            // button1
+            // buttonClear
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(795, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(152, 29);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Limpar Resultados";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonClear.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonClear.Location = new System.Drawing.Point(795, 18);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(152, 29);
+            this.buttonClear.TabIndex = 2;
+            this.buttonClear.Text = "Limpar Resultados";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // splitContainer2
             // 
@@ -377,7 +377,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView treeViewResult;
         private System.Windows.Forms.ListBox listBoxErrors;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.ErrorProvider errorProviderInput;
         private System.Windows.Forms.ImageList imageList1;
     }
