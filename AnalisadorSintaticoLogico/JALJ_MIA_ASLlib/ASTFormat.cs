@@ -5,11 +5,20 @@ namespace JALJ_MIA_ASLlib
 {
     public class ASTFormat
     {
+        /// <summary>
+        /// Type of the format.
+        /// </summary>
         public enum FormatType
         {
             TREE, JSON
         }
 
+        /// <summary>
+        /// Format the abstract syntax tree.
+        /// </summary>
+        /// <param name="ast">abstract syntax tree node</param>
+        /// <param name="type">type to format to</param>
+        /// <returns></returns>
         public static string Format(AST ast, FormatType type = FormatType.TREE)
         {
             string result = "";
@@ -30,8 +39,13 @@ namespace JALJ_MIA_ASLlib
             return result;
         }
 
-        #region Métodos privados 
+        #region Private functions 
 
+        /// <summary>
+        /// Generate the formatted ast node.
+        /// </summary>
+        /// <param name="ast">abstract syntax tree node</param>
+        /// <returns>an enumerable sequence of nodes as strings</returns>
         private static IEnumerable<string> StrTree(AST ast)
         {
             IEnumerable<string> result = null; 
@@ -73,6 +87,12 @@ namespace JALJ_MIA_ASLlib
             return result;
         }
 
+        /// <summary>
+        /// Add a padding to the ast string representation, depending on its position.
+        /// </summary>
+        /// <param name="tree">the tree</param>
+        /// <param name="len">length</param>
+        /// <returns>padded tree string representation</returns>
         private static IEnumerable<string> PadTree(IEnumerable<string> tree, out int len)
         {
             // Calcula o comprimento máximo de uma linha.
@@ -91,6 +111,12 @@ namespace JALJ_MIA_ASLlib
             return tree;
         }
 
+        /// <summary>
+        /// Creates a JSON representation of the ast node.
+        /// </summary>
+        /// <param name="ast">AST node</param>
+        /// <param name="nesting">nesting level for identation</param>
+        /// <returns></returns>
         private static string StrJson(AST ast, int nesting = 0)
         {
             string pad = new string('\t', nesting);
@@ -118,6 +144,6 @@ namespace JALJ_MIA_ASLlib
 
         }
 
-        #endregion Métodos privados 
+        #endregion Private functions.
     }
 }

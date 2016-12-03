@@ -2,27 +2,36 @@
 
 namespace JALJ_MIA_ASLlib
 {
+    /// <summary>
+    /// Logic Parser.
+    /// </summary>
     public class Parser
     {
+        #region Public attributes.
 
-        #region Atributos públicos
-
+        /// <summary>
+        /// Extracted tokens.
+        /// </summary>
         public List<Token> Tokens
         {
             get; set;
         }
 
+        /// <summary>
+        /// AST node current instance.
+        /// </summary>
         public AST Ast
         {
             get; private set;
         }
 
-        #endregion Atributos públicos
+        #endregion Public attributes.
 
-        int m_idx;
-        int m_conditionals;
-        AST m_current;
+        int m_idx;              // current index.
+        AST m_current;          // current AST node.
+        int m_implFlag;         // implication flag, to control implications precedence.
 
+        // Constructor.
         public AST Parse(List<Token> tokens = null)
         {
             if (tokens != null) Tokens = tokens;
@@ -34,58 +43,76 @@ namespace JALJ_MIA_ASLlib
             return Ast;
         }
 
+        /// <summary>
+        /// Parsing recursive implementation.
+        /// </summary>
+        /// <param name="precede">does precedence must be considered in this recursive call?</param>
+        /// <returns>the resulting AST node.</returns>
         AST Walk(bool precede = false)
         {
+            // Increment the global index.
             m_idx++;
             if (m_idx >= Tokens.Count) return null;
 
+            // Read the current index's token value.
             Token token = Tokens[m_idx];
+
             AST ast = null;
 
             switch (token.type)
             {
-                case Language.Symbol.PROP:
+                case Language.Symbol.PROP:          // a propositional letter.
                     ast = new ASTProp(token.value);
                     break;
-                case Language.Symbol.NAO:
+                case Language.Symbol.NAO:           // negation operation.
                     ast = new ASTOpUnary(Walk(true), token.type);
                     break;
-                case Language.Symbol.E:
-                case Language.Symbol.OU:
+                case Language.Symbol.E:             // conjunction operation. 
+                case Language.Symbol.OU:            // disjunction operation.
                     ast = new ASTOpBinary(m_current, Walk(true), token.type);
                     break;
-                case Language.Symbol.CONDICIONAL:
-                case Language.Symbol.BICONDICIONAL:
-                    bool bi = token.type == Language.Symbol.BICONDICIONAL;
-                    bool forward =                      // sigo adiante se...
-                        m_conditionals == 0 ||          // ... não há condicional aguardando ou...
-                        (m_conditionals == 2 && !bi);   // ... bicondicional aguarda e atual é condicional simples.
+                case Language.Symbol.IMPLICA:       // implication operation.
+                case Language.Symbol.DUPLO_IMPLICA: // double implication operation.
+                    // double implication has lesser precedence over single implication. 
+                    bool bi = token.type == Language.Symbol.DUPLO_IMPLICA;
+                    // must continue to parse?
+                    bool forward =                  // we continue parsing if...
+                        m_implFlag == 0 ||          // ... there is no implications awaiting or ...
+                        (m_implFlag == 2 && !bi);   // ... a double implication awaits and the current is a single implication.
                     if (forward)
-                    {   // segue em frente.
-                        int conditionals = m_conditionals;
-                        m_conditionals = bi ? 2 : 1;
+                    {   // must continue the parsing.
+                        // save current implication flag value...
+                        int implications = m_implFlag;
+                        // and update the global value.
+                        m_implFlag = bi ? 2 : 1;
+                        // enter another recursion.
                         ast = new ASTOpBinary(m_current, Walk(false), token.type);
-                        if (m_conditionals == 0) precede = false;
-                        m_conditionals = conditionals;
+                        // did the last recursive call finished precedence analysis? 
+                        if (m_implFlag == 0) precede = false;
+                        // restore previous (saved) implication flag value.
+                        m_implFlag = implications;
                     } else 
-                    {   // conclui operação em andamento (recursão atual) para voltar depois.
+                    {   // must not continue and must return to the last call.
                         m_idx--;
                         ast = m_current;
                         precede = true;
-                        m_conditionals = 0;
+                        m_implFlag = 0;
                         break;
                     }
                     break;
-                case Language.Symbol.ABERTURA:
+                case Language.Symbol.ABERTURA:      // opening expression symbol.
+                    // enter a new recursive call, as an AST node must come from the parenthesis' content analysis.
                     while (Walk(precede) != null)
                         ast = m_current;
                     break;
-                case Language.Symbol.FECHAMENTO:
+                case Language.Symbol.FECHAMENTO:    // closing expression symbol.
                     return null;
             }
 
+            // update current AST node.
             m_current = ast;
 
+            // continue the processing as long as there are tokens and no precedence.
             if (!precede && m_idx < Tokens.Count) Walk();
 
             return m_current;
