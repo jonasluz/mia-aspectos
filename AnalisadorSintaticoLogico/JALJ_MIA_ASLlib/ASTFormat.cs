@@ -10,7 +10,7 @@ namespace JALJ_MIA_ASLlib
         /// </summary>
         public enum FormatType
         {
-            TREE, JSON
+            TREE, JSON, PLAIN
         }
 
         /// <summary>
@@ -33,6 +33,9 @@ namespace JALJ_MIA_ASLlib
                     break;
                 case FormatType.JSON:
                     result = StrJson(ast);
+                    break;
+                case FormatType.PLAIN:
+                    result = StrPlain(ast);
                     break;
             }
 
@@ -142,6 +145,23 @@ namespace JALJ_MIA_ASLlib
 
             return result + pad + "}";
 
+        }
+
+        private static string StrPlain(AST ast)
+        {
+            switch (ast.GetType().Name)
+            {
+
+                case "ASTProp":
+                    return " " + ((ASTProp)ast).value.ToString().ToLower() + " ";
+                case "ASTOpUnary":
+                    return "~" + StrPlain(((ASTOpUnary)ast).ast);
+                case "ASTOpBinary":
+                    ASTOpBinary opBin = (ASTOpBinary)ast;
+                    return " (" + StrPlain(opBin.left) + opBin.value + StrPlain(opBin.right) + ") ";
+            } // switch
+
+            return "";
         }
 
         #endregion Private functions.
