@@ -29,6 +29,39 @@ namespace JALJ_MIA_ASLgui
             Execute();
         }
 
+        private void buttonFNC_Click(object sender, EventArgs e)
+        {
+            // Expression input.
+            string expr = textBoxInput.Text;
+
+            // Creates a new analyzer for the expression.
+            Analyzer asl = new Analyzer(expr);
+
+            // Tokenization phase.
+            if (!asl.Tokenize())
+            { // There are errors from the tokenization. 
+                foreach (string error in asl.Errors)
+                    listBoxErrors.Items.Add(error);
+                string alert = string.Format(
+                    "Há {0} erros identificados. Por favor, revise-os.",
+                    asl.Errors.Count());
+                errorProviderInput.SetError(textBoxInput, alert);
+
+                return;
+            }
+
+            // Parsing phase.
+            AST ast = CNF.Convert(asl.Parse());
+
+            // Convert the AST node to a tree view.
+            TreeNode node = new TreeNode(expr);
+            node.Nodes.Add(FillTree(ast));
+            treeViewResult.Nodes.Add(node);
+            treeViewResult.Select();
+            treeViewResult.SelectedNode = node;
+            node.ExpandAll();
+        }
+
         private void buttonClear_Click(object sender, EventArgs e)
         {
             // Limpa resultados na árvore.
@@ -40,7 +73,7 @@ namespace JALJ_MIA_ASLgui
         #endregion Button actions
 
         /// <summary>
-        /// Analysis procedure.
+        /// AST analysis procedure.
         /// </summary>
         private void Execute()
         {
@@ -117,5 +150,6 @@ namespace JALJ_MIA_ASLgui
             errorProviderInput.Clear();
             listBoxErrors.Items.Clear();
         }
+
     }
 }

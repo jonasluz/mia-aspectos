@@ -6,7 +6,7 @@ namespace JALJ_MIA_ASLlib
     /// Conjuntive normal form (CNF) conversion.
     /// </summary>
     /// <see cref="http://cs.jhu.edu/~jason/tutorials/convert-to-CNF"/>
-    abstract class CNF
+    public abstract class CNF
     {
         #region Inner classes
 
@@ -81,7 +81,7 @@ namespace JALJ_MIA_ASLlib
         /// </summary>
         /// <param name="ast">original abstract syntatic tree representinf the formula.</param>
         /// <returns>formula in CNF.</returns>
-        public AST Convert(AST ast)
+        public static AST Convert(AST ast)
         {
             switch (ast.GetType().Name)
             {
@@ -156,7 +156,7 @@ namespace JALJ_MIA_ASLlib
         /// <param name="left">Left AST</param>
         /// <param name="right">Right AST</param>
         /// <returns>A new AST representing left OR right</returns>
-        private AST Distribute(AST left, AST right)
+        private static AST Distribute(AST left, AST right)
         {
             // left and right must be already in CNF.
             IEnumerable<AST> leftFormulas = new Extractor(left).Formulas;

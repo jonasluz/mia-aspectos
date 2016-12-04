@@ -38,6 +38,7 @@
             this.treeViewResult = new System.Windows.Forms.TreeView();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
             this.errorProviderInput = new System.Windows.Forms.ErrorProvider(this.components);
+            this.buttonFNC = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -73,6 +74,7 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.textBoxInput);
             this.flowLayoutPanel1.Controls.Add(this.buttonSubmit);
+            this.flowLayoutPanel1.Controls.Add(this.buttonFNC);
             this.flowLayoutPanel1.Controls.Add(this.buttonClear);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -95,9 +97,9 @@
             this.buttonSubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSubmit.Location = new System.Drawing.Point(637, 18);
             this.buttonSubmit.Name = "buttonSubmit";
-            this.buttonSubmit.Size = new System.Drawing.Size(152, 29);
+            this.buttonSubmit.Size = new System.Drawing.Size(70, 29);
             this.buttonSubmit.TabIndex = 1;
-            this.buttonSubmit.Text = "Avaliar";
+            this.buttonSubmit.Text = "Árvore";
             this.buttonSubmit.UseVisualStyleBackColor = true;
             this.buttonSubmit.Click += new System.EventHandler(this.buttonSubmit_Click);
             // 
@@ -105,11 +107,11 @@
             // 
             this.buttonClear.Dock = System.Windows.Forms.DockStyle.Right;
             this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.Location = new System.Drawing.Point(795, 18);
+            this.buttonClear.Location = new System.Drawing.Point(789, 18);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(152, 29);
+            this.buttonClear.Size = new System.Drawing.Size(70, 29);
             this.buttonClear.TabIndex = 2;
-            this.buttonClear.Text = "Limpar Resultados";
+            this.buttonClear.Text = "Limpar";
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
@@ -156,6 +158,18 @@
             // 
             this.errorProviderInput.ContainerControl = this;
             // 
+            // buttonFNC
+            // 
+            this.buttonFNC.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonFNC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonFNC.Location = new System.Drawing.Point(713, 18);
+            this.buttonFNC.Name = "buttonFNC";
+            this.buttonFNC.Size = new System.Drawing.Size(70, 29);
+            this.buttonFNC.TabIndex = 3;
+            this.buttonFNC.Text = "FNC";
+            this.buttonFNC.UseVisualStyleBackColor = true;
+            this.buttonFNC.Click += new System.EventHandler(this.buttonFNC_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.buttonSubmit;
@@ -192,6 +206,7 @@
         private System.Windows.Forms.ListBox listBoxErrors;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.ErrorProvider errorProviderInput;
+        private System.Windows.Forms.Button buttonFNC;
     }
 }
 
