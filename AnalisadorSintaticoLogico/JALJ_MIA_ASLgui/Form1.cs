@@ -114,7 +114,7 @@ namespace JALJ_MIA_ASLgui
         /// </summary>
         private void ClearErrorMsgs()
         {
-            errorProviderInput.Clear();
+            errorProviderInput.SetError(textBoxInput, null);
             listBoxErrors.Items.Clear();
         }
     }

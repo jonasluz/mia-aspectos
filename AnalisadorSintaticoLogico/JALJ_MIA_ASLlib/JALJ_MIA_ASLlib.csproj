@@ -43,6 +43,7 @@
     <Compile Include="Analyzer.cs" />
     <Compile Include="AST.cs" />
     <Compile Include="ASTFormat.cs" />
+    <Compile Include="CNF.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
