@@ -52,9 +52,10 @@ namespace JALJ_MIA_ASLgui
 
             // Parsing phase.
             AST ast = CNF.Convert(asl.Parse());
+            string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
 
             // Convert the AST node to a tree view.
-            TreeNode node = new TreeNode(expr);
+            TreeNode node = new TreeNode(expr + " - FNC: " + fnc);
             node.Nodes.Add(FillTree(ast));
             treeViewResult.Nodes.Add(node);
             treeViewResult.Select();

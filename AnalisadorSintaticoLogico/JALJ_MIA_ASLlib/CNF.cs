@@ -122,7 +122,7 @@ namespace JALJ_MIA_ASLlib
                         case "ASTProp":         // Form ~P ... return ~P
                             return ast;
                         case "ASTOpUnary":      // Form ~(~P) - double negation ... return Convert(P)
-                            return Convert(p);
+                            return Convert(((ASTOpUnary)p).ast);
                         case "ASTOpBinary":
                             opBin = (ASTOpBinary)p;
                             Language.Symbol op = opBin.value;

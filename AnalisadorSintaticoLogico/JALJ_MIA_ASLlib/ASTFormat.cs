@@ -147,7 +147,7 @@ namespace JALJ_MIA_ASLlib
 
         }
 
-        private static string StrPlain(AST ast, int nesting = 0)
+        private static string StrPlain(AST ast)
         {
             switch (ast.GetType().Name)
             {
@@ -155,7 +155,7 @@ namespace JALJ_MIA_ASLlib
                 case "ASTProp":
                     return " " + ((ASTProp)ast).value.ToString().ToLower() + " ";
                 case "ASTOpUnary":
-                    return "~" + StrPlain((ASTOpUnary)ast);
+                    return "~" + StrPlain(((ASTOpUnary)ast).ast);
                 case "ASTOpBinary":
                     ASTOpBinary opBin = (ASTOpBinary)ast;
                     return " (" + StrPlain(opBin.left) + opBin.value + StrPlain(opBin.right) + ") ";
