@@ -29,59 +29,61 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.flowLayoutPanelInput = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonSubmit = new System.Windows.Forms.Button();
+            this.buttonFNC = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerOutput = new System.Windows.Forms.SplitContainer();
             this.treeViewResult = new System.Windows.Forms.TreeView();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
             this.errorProviderInput = new System.Windows.Forms.ErrorProvider(this.components);
-            this.buttonFNC = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            this.pictureBoxTree = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
+            this.splitContainerMain.Panel1.SuspendLayout();
+            this.splitContainerMain.Panel2.SuspendLayout();
+            this.splitContainerMain.SuspendLayout();
+            this.flowLayoutPanelInput.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerOutput)).BeginInit();
+            this.splitContainerOutput.Panel1.SuspendLayout();
+            this.splitContainerOutput.Panel2.SuspendLayout();
+            this.splitContainerOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTree)).BeginInit();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // splitContainerMain
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerMain.Name = "splitContainerMain";
+            this.splitContainerMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // splitContainerMain.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.flowLayoutPanel1);
+            this.splitContainerMain.Panel1.Controls.Add(this.flowLayoutPanelInput);
             // 
-            // splitContainer1.Panel2
+            // splitContainerMain.Panel2
             // 
-            this.splitContainer1.Panel2.AllowDrop = true;
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(975, 604);
-            this.splitContainer1.SplitterDistance = 70;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainerMain.Panel2.AllowDrop = true;
+            this.splitContainerMain.Panel2.Controls.Add(this.splitContainerOutput);
+            this.splitContainerMain.Size = new System.Drawing.Size(975, 604);
+            this.splitContainerMain.SplitterDistance = 70;
+            this.splitContainerMain.TabIndex = 0;
             // 
-            // flowLayoutPanel1
+            // flowLayoutPanelInput
             // 
-            this.flowLayoutPanel1.Controls.Add(this.textBoxInput);
-            this.flowLayoutPanel1.Controls.Add(this.buttonSubmit);
-            this.flowLayoutPanel1.Controls.Add(this.buttonFNC);
-            this.flowLayoutPanel1.Controls.Add(this.buttonClear);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(15);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(975, 70);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.flowLayoutPanelInput.Controls.Add(this.textBoxInput);
+            this.flowLayoutPanelInput.Controls.Add(this.buttonSubmit);
+            this.flowLayoutPanelInput.Controls.Add(this.buttonFNC);
+            this.flowLayoutPanelInput.Controls.Add(this.buttonClear);
+            this.flowLayoutPanelInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelInput.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelInput.Name = "flowLayoutPanelInput";
+            this.flowLayoutPanelInput.Padding = new System.Windows.Forms.Padding(15);
+            this.flowLayoutPanelInput.Size = new System.Drawing.Size(975, 70);
+            this.flowLayoutPanelInput.TabIndex = 0;
             // 
             // textBoxInput
             // 
@@ -103,6 +105,18 @@
             this.buttonSubmit.UseVisualStyleBackColor = true;
             this.buttonSubmit.Click += new System.EventHandler(this.buttonSubmit_Click);
             // 
+            // buttonFNC
+            // 
+            this.buttonFNC.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonFNC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonFNC.Location = new System.Drawing.Point(713, 18);
+            this.buttonFNC.Name = "buttonFNC";
+            this.buttonFNC.Size = new System.Drawing.Size(70, 29);
+            this.buttonFNC.TabIndex = 3;
+            this.buttonFNC.Text = "FNC";
+            this.buttonFNC.UseVisualStyleBackColor = true;
+            this.buttonFNC.Click += new System.EventHandler(this.buttonFNC_Click);
+            // 
             // buttonClear
             // 
             this.buttonClear.Dock = System.Windows.Forms.DockStyle.Right;
@@ -115,28 +129,30 @@
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
-            // splitContainer2
+            // splitContainerOutput
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerOutput.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerOutput.Name = "splitContainerOutput";
+            this.splitContainerOutput.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer2.Panel1
+            // splitContainerOutput.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.treeViewResult);
+            this.splitContainerOutput.Panel1.Controls.Add(this.pictureBoxTree);
+            this.splitContainerOutput.Panel1.Controls.Add(this.treeViewResult);
             // 
-            // splitContainer2.Panel2
+            // splitContainerOutput.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.listBoxErrors);
-            this.splitContainer2.Size = new System.Drawing.Size(975, 530);
-            this.splitContainer2.SplitterDistance = 413;
-            this.splitContainer2.TabIndex = 0;
+            this.splitContainerOutput.Panel2.Controls.Add(this.listBoxErrors);
+            this.splitContainerOutput.Size = new System.Drawing.Size(975, 530);
+            this.splitContainerOutput.SplitterDistance = 413;
+            this.splitContainerOutput.TabIndex = 0;
             // 
             // treeViewResult
             // 
             this.treeViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewResult.LineColor = System.Drawing.Color.MediumBlue;
             this.treeViewResult.Location = new System.Drawing.Point(0, 0);
             this.treeViewResult.Name = "treeViewResult";
             this.treeViewResult.Size = new System.Drawing.Size(975, 413);
@@ -158,17 +174,14 @@
             // 
             this.errorProviderInput.ContainerControl = this;
             // 
-            // buttonFNC
+            // pictureBoxTree
             // 
-            this.buttonFNC.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonFNC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonFNC.Location = new System.Drawing.Point(713, 18);
-            this.buttonFNC.Name = "buttonFNC";
-            this.buttonFNC.Size = new System.Drawing.Size(70, 29);
-            this.buttonFNC.TabIndex = 3;
-            this.buttonFNC.Text = "FNC";
-            this.buttonFNC.UseVisualStyleBackColor = true;
-            this.buttonFNC.Click += new System.EventHandler(this.buttonFNC_Click);
+            this.pictureBoxTree.BackColor = System.Drawing.Color.White;
+            this.pictureBoxTree.Location = new System.Drawing.Point(32, 14);
+            this.pictureBoxTree.Name = "pictureBoxTree";
+            this.pictureBoxTree.Size = new System.Drawing.Size(889, 373);
+            this.pictureBoxTree.TabIndex = 1;
+            this.pictureBoxTree.TabStop = false;
             // 
             // FormMain
             // 
@@ -176,37 +189,39 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(975, 604);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainerMain);
             this.Name = "FormMain";
             this.Text = "Analisador Sintático Lógico, por Jonas Luz";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.splitContainerMain.Panel1.ResumeLayout(false);
+            this.splitContainerMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
+            this.splitContainerMain.ResumeLayout(false);
+            this.flowLayoutPanelInput.ResumeLayout(false);
+            this.flowLayoutPanelInput.PerformLayout();
+            this.splitContainerOutput.Panel1.ResumeLayout(false);
+            this.splitContainerOutput.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerOutput)).EndInit();
+            this.splitContainerOutput.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTree)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.SplitContainer splitContainerMain;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelInput;
         private System.Windows.Forms.TextBox textBoxInput;
         private System.Windows.Forms.Button buttonSubmit;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitContainerOutput;
         private System.Windows.Forms.TreeView treeViewResult;
         private System.Windows.Forms.ListBox listBoxErrors;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.ErrorProvider errorProviderInput;
         private System.Windows.Forms.Button buttonFNC;
+        private System.Windows.Forms.PictureBox pictureBoxTree;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+
 using JALJ_MIA_ASLlib;
 
 namespace JALJ_MIA_ASLgui
@@ -10,6 +11,8 @@ namespace JALJ_MIA_ASLgui
     /// </summary>
     public partial class FormMain : Form
     {
+        TreeFiller m_treeFiller = null;
+
         #region Created by Form Designer
         public FormMain()
         {
@@ -61,6 +64,10 @@ namespace JALJ_MIA_ASLgui
             treeViewResult.Select();
             treeViewResult.SelectedNode = node;
             node.ExpandAll();
+
+            // Add the tree to the image.
+            if (m_treeFiller == null) m_treeFiller = new TreeFiller(pictureBoxTree);
+            m_treeFiller.Draw(ast);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)

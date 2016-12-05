@@ -151,7 +151,6 @@ namespace JALJ_MIA_ASLlib
         {
             switch (ast.GetType().Name)
             {
-
                 case "ASTProp":
                     return " " + ((ASTProp)ast).value.ToString().ToLower() + " ";
                 case "ASTOpUnary":
