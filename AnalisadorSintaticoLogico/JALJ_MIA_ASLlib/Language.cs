@@ -12,7 +12,7 @@ namespace JALJ_MIA_ASLlib
         public enum Symbol
         {
             VAZIO, ABERTURA, FECHAMENTO, PROP,
-            E, OU, NAO, IMPLICA, EQUIVALENTE,
+            E, OU, NAO, IMPLICA, EQUIVALE,
             INVALIDO, TODOS
         }
 
@@ -76,10 +76,10 @@ namespace JALJ_MIA_ASLlib
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.FECHAMENTO, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.FECHAMENTO,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.NAO, Symbol.E, Symbol.OU, Symbol.IMPLICA, Symbol.EQUIVALENTE }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.NAO, Symbol.E, Symbol.OU, Symbol.IMPLICA, Symbol.EQUIVALE }
                 },
                 { Symbol.PROP,
-                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.E, Symbol.OU, Symbol.IMPLICA, Symbol.EQUIVALENTE }
+                  new List<Symbol>() { Symbol.FECHAMENTO, Symbol.VAZIO, Symbol.E, Symbol.OU, Symbol.IMPLICA, Symbol.EQUIVALE }
                 },
                 { Symbol.E,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
@@ -90,7 +90,7 @@ namespace JALJ_MIA_ASLlib
                 { Symbol.IMPLICA,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
-                { Symbol.EQUIVALENTE,
+                { Symbol.EQUIVALE,
                   new List<Symbol>() { Symbol.ABERTURA, Symbol.PROP, Symbol.VAZIO, Symbol.NAO }
                 },
                 { Symbol.NAO,
@@ -171,7 +171,7 @@ namespace JALJ_MIA_ASLlib
                 case '>':
                     return Symbol.IMPLICA;
                 case '=':
-                    return Symbol.EQUIVALENTE;
+                    return Symbol.EQUIVALE;
                 case ' ':
                     return Symbol.VAZIO;
                 default:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Drawing;
 using System.Windows.Forms;
 
 using JALJ_MIA_ASLlib;
@@ -18,24 +19,18 @@ namespace JALJ_MIA_ASLgui
         {
             InitializeComponent();
         }
-        private void Form1_Load(object sender, EventArgs e) { ; }
+        private void Form1_Load(object sender, EventArgs e) {; }
         #endregion Created by Form Designer
 
         #region Buttons actions
 
         private void buttonSubmit_Click(object sender, EventArgs e)
         {
-            // Clear previous execution error messages.
-            listBoxErrors.Items.Clear();
+            string expr = textBoxInput.Text;    // expression input.
 
-            // Run analysis.
-            Execute();
-        }
-
-        private void buttonFNC_Click(object sender, EventArgs e)
-        {
-            // Expression input.
-            string expr = textBoxInput.Text;
+            // Cleanup and setup.
+            ClearErrorMsgs();
+            tabControl1.SelectedIndex = 0;
 
             // Creates a new analyzer for the expression.
             Analyzer asl = new Analyzer(expr);
@@ -54,39 +49,18 @@ namespace JALJ_MIA_ASLgui
             }
 
             // Parsing phase.
-            AST ast = CNF.Convert(asl.Parse());
-            string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
-
-            // Convert the AST node to a tree view.
-            TreeNode node = new TreeNode(expr + " - FNC: " + fnc);
-            node.Nodes.Add(FillTree(ast));
-            treeViewResult.Nodes.Add(node);
-            treeViewResult.Select();
-            treeViewResult.SelectedNode = node;
-            node.ExpandAll();
+            AST ast = asl.Parse();
 
             // Add the tree to the image.
             if (m_treeFiller == null) m_treeFiller = new TreeFiller(pictureBoxTree);
             m_treeFiller.Draw(ast);
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void buttonFNC_Click(object sender, EventArgs e)
         {
-            // Limpa resultados na árvore.
-            treeViewResult.Nodes.Clear();
-            // Limpa eventuais erros.
-            ClearErrorMsgs();
-        }
+            string expr = textBoxInput.Text;    // expression input.
 
-        #endregion Button actions
-
-        /// <summary>
-        /// AST analysis procedure.
-        /// </summary>
-        private void Execute()
-        {
-            // Expression input.
-            string expr = textBoxInput.Text;
+            tabControl1.SelectedIndex = 1;
 
             // Creates a new analyzer for the expression.
             Analyzer asl = new Analyzer(expr);
@@ -97,24 +71,38 @@ namespace JALJ_MIA_ASLgui
                 foreach (string error in asl.Errors)
                     listBoxErrors.Items.Add(error);
                 string alert = string.Format(
-                    "Há {0} erros identificados. Por favor, revise-os.", 
+                    "Há {0} erros identificados. Por favor, revise-os.",
                     asl.Errors.Count());
                 errorProviderInput.SetError(textBoxInput, alert);
-
                 return;
             }
 
             // Parsing phase.
-            AST ast = asl.Parse();
+            AST ast = CNF.Convert(asl.Parse());
+            string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
 
-            // Convert the AST node to a tree view.
-            TreeNode node = new TreeNode(expr);
-            node.Nodes.Add(FillTree(ast));
-            treeViewResult.Nodes.Add(node);
-            treeViewResult.Select();
-            treeViewResult.SelectedNode = node;
-            node.ExpandAll();
+            // Add this formula to the FNC list.
+            richTextBoxCNF.AppendText(expr + " - FNC: ");
+            richTextBoxCNF.SelectionBackColor = Color.AliceBlue;
+            richTextBoxCNF.AppendText(fnc + "\n");
+
+            // Add the tree to the image.
+            /*
+            if (m_treeFiller == null) m_treeFiller = new TreeFiller(pictureBoxTree);
+            m_treeFiller.Draw(ast);
+            */
         }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            // Clear outputs.
+            pictureBoxTree.Image = null;
+            richTextBoxCNF.Clear();
+            // Clear errors.
+            ClearErrorMsgs();
+        }
+
+        #endregion Button actions
 
         /// <summary>
         /// Fill a treeview node with an AST node.

@@ -105,7 +105,7 @@ namespace JALJ_MIA_ASLlib
                                     new ASTOpUnary(opBin.left, Language.Symbol.NAO),
                                     opBin.right, Language.Symbol.OU)
                                 );
-                        case Language.Symbol.EQUIVALENTE: // Form (P<->Q). Equivalent to (P&Q)|(~P&~Q).
+                        case Language.Symbol.EQUIVALE: // Form (P<->Q). Equivalent to (P&Q)|(~P&~Q).
                             left = new ASTOpBinary(opBin.left, opBin.right, Language.Symbol.E);
                             right = new ASTOpBinary(
                                 new ASTOpUnary(opBin.left, Language.Symbol.NAO),

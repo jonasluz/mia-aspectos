@@ -59,10 +59,10 @@ namespace JALJ_MIA_ASLgui
         private void InitTreeBuilder()
         {
             m_treeBuilder = new TreeBuilder(m_treeDT);
-            m_treeBuilder.BGColor = Color.LightSteelBlue;
+            m_treeBuilder.BGColor = Color.White;
             m_treeBuilder.FontColor = Color.Black;
             m_treeBuilder.BoxFillColor = Color.LightGoldenrodYellow;
-            m_treeBuilder.BoxHeight = 30; m_treeBuilder.BoxWidth = 40;
+            m_treeBuilder.BoxHeight = 30; m_treeBuilder.BoxWidth = 70;
         }
     }
 }

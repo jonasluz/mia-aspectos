@@ -36,10 +36,15 @@
             this.buttonFNC = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
             this.splitContainerOutput = new System.Windows.Forms.SplitContainer();
-            this.treeViewResult = new System.Windows.Forms.TreeView();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPageTree = new System.Windows.Forms.TabPage();
+            this.pictureBoxTree = new System.Windows.Forms.PictureBox();
+            this.tabPageCNF = new System.Windows.Forms.TabPage();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
             this.errorProviderInput = new System.Windows.Forms.ErrorProvider(this.components);
-            this.pictureBoxTree = new System.Windows.Forms.PictureBox();
+            this.tabPageATP = new System.Windows.Forms.TabPage();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.richTextBoxCNF = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
@@ -49,8 +54,12 @@
             this.splitContainerOutput.Panel1.SuspendLayout();
             this.splitContainerOutput.Panel2.SuspendLayout();
             this.splitContainerOutput.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPageTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTree)).BeginInit();
+            this.tabPageCNF.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).BeginInit();
+            this.tabPageATP.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainerMain
@@ -138,8 +147,7 @@
             // 
             // splitContainerOutput.Panel1
             // 
-            this.splitContainerOutput.Panel1.Controls.Add(this.pictureBoxTree);
-            this.splitContainerOutput.Panel1.Controls.Add(this.treeViewResult);
+            this.splitContainerOutput.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainerOutput.Panel2
             // 
@@ -148,15 +156,50 @@
             this.splitContainerOutput.SplitterDistance = 413;
             this.splitContainerOutput.TabIndex = 0;
             // 
-            // treeViewResult
+            // tabControl1
             // 
-            this.treeViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewResult.LineColor = System.Drawing.Color.MediumBlue;
-            this.treeViewResult.Location = new System.Drawing.Point(0, 0);
-            this.treeViewResult.Name = "treeViewResult";
-            this.treeViewResult.Size = new System.Drawing.Size(975, 413);
-            this.treeViewResult.TabIndex = 0;
+            this.tabControl1.Controls.Add(this.tabPageTree);
+            this.tabControl1.Controls.Add(this.tabPageCNF);
+            this.tabControl1.Controls.Add(this.tabPageATP);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(975, 413);
+            this.tabControl1.TabIndex = 2;
+            // 
+            // tabPageTree
+            // 
+            this.tabPageTree.Controls.Add(this.pictureBoxTree);
+            this.tabPageTree.Location = new System.Drawing.Point(4, 22);
+            this.tabPageTree.Name = "tabPageTree";
+            this.tabPageTree.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageTree.Size = new System.Drawing.Size(967, 387);
+            this.tabPageTree.TabIndex = 0;
+            this.tabPageTree.Text = "Árvore";
+            this.tabPageTree.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxTree
+            // 
+            this.pictureBoxTree.BackColor = System.Drawing.Color.White;
+            this.pictureBoxTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxTree.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxTree.Name = "pictureBoxTree";
+            this.pictureBoxTree.Size = new System.Drawing.Size(961, 381);
+            this.pictureBoxTree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxTree.TabIndex = 1;
+            this.pictureBoxTree.TabStop = false;
+            // 
+            // tabPageCNF
+            // 
+            this.tabPageCNF.Controls.Add(this.richTextBoxCNF);
+            this.tabPageCNF.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCNF.Name = "tabPageCNF";
+            this.tabPageCNF.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCNF.Size = new System.Drawing.Size(967, 387);
+            this.tabPageCNF.TabIndex = 1;
+            this.tabPageCNF.Text = "FNC";
+            this.tabPageCNF.UseVisualStyleBackColor = true;
             // 
             // listBoxErrors
             // 
@@ -174,14 +217,34 @@
             // 
             this.errorProviderInput.ContainerControl = this;
             // 
-            // pictureBoxTree
+            // tabPageATP
             // 
-            this.pictureBoxTree.BackColor = System.Drawing.Color.White;
-            this.pictureBoxTree.Location = new System.Drawing.Point(32, 14);
-            this.pictureBoxTree.Name = "pictureBoxTree";
-            this.pictureBoxTree.Size = new System.Drawing.Size(889, 373);
-            this.pictureBoxTree.TabIndex = 1;
-            this.pictureBoxTree.TabStop = false;
+            this.tabPageATP.Controls.Add(this.splitter1);
+            this.tabPageATP.Location = new System.Drawing.Point(4, 22);
+            this.tabPageATP.Name = "tabPageATP";
+            this.tabPageATP.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageATP.Size = new System.Drawing.Size(967, 387);
+            this.tabPageATP.TabIndex = 2;
+            this.tabPageATP.Text = "PAT";
+            this.tabPageATP.UseVisualStyleBackColor = true;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(3, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 381);
+            this.splitter1.TabIndex = 0;
+            this.splitter1.TabStop = false;
+            // 
+            // richTextBoxCNF
+            // 
+            this.richTextBoxCNF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxCNF.Font = new System.Drawing.Font("Open Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxCNF.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxCNF.Name = "richTextBoxCNF";
+            this.richTextBoxCNF.Size = new System.Drawing.Size(961, 381);
+            this.richTextBoxCNF.TabIndex = 0;
+            this.richTextBoxCNF.Text = "";
             // 
             // FormMain
             // 
@@ -203,8 +266,12 @@
             this.splitContainerOutput.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerOutput)).EndInit();
             this.splitContainerOutput.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPageTree.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTree)).EndInit();
+            this.tabPageCNF.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProviderInput)).EndInit();
+            this.tabPageATP.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -216,12 +283,17 @@
         private System.Windows.Forms.TextBox textBoxInput;
         private System.Windows.Forms.Button buttonSubmit;
         private System.Windows.Forms.SplitContainer splitContainerOutput;
-        private System.Windows.Forms.TreeView treeViewResult;
         private System.Windows.Forms.ListBox listBoxErrors;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.ErrorProvider errorProviderInput;
         private System.Windows.Forms.Button buttonFNC;
         private System.Windows.Forms.PictureBox pictureBoxTree;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPageTree;
+        private System.Windows.Forms.TabPage tabPageCNF;
+        private System.Windows.Forms.TabPage tabPageATP;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.RichTextBox richTextBoxCNF;
     }
 }
 

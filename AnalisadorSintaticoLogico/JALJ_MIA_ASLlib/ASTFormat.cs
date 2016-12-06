@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace JALJ_MIA_ASLlib
 {
-    public class ASTFormat
+    public abstract class ASTFormat
     {
         /// <summary>
         /// Type of the format.
@@ -11,6 +11,14 @@ namespace JALJ_MIA_ASLlib
         public enum FormatType
         {
             TREE, JSON, PLAIN
+        }
+
+        /// <summary>
+        /// Does the formatting must consider the formula in CNF? 
+        /// </summary>
+        public static bool InCNF
+        {
+            get; set;
         }
 
         /// <summary>
@@ -147,17 +155,23 @@ namespace JALJ_MIA_ASLlib
 
         }
 
-        private static string StrPlain(AST ast)
+        private static string StrPlain(AST ast, bool innerOR = false)
         {
             switch (ast.GetType().Name)
             {
                 case "ASTProp":
-                    return " " + ((ASTProp)ast).value.ToString().ToLower() + " ";
+                    return ((ASTProp)ast).value.ToString().ToLower();
                 case "ASTOpUnary":
-                    return "~" + StrPlain(((ASTOpUnary)ast).ast);
+                    return "(~" + StrPlain(((ASTOpUnary)ast).ast) + ")";
                 case "ASTOpBinary":
                     ASTOpBinary opBin = (ASTOpBinary)ast;
-                    return " (" + StrPlain(opBin.left) + opBin.value + StrPlain(opBin.right) + ") ";
+                    bool nextOR = ( opBin.value == Language.Symbol.OU );
+                    string plain = 
+                        StrPlain(opBin.left, nextOR) + " " + 
+                        opBin.value + " " + 
+                        StrPlain(opBin.right, nextOR);
+                    if (!innerOR) plain = "(" + plain + ")";
+                    return plain;
             } // switch
 
             return "";

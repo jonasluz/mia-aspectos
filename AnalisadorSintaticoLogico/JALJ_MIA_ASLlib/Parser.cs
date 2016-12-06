@@ -72,9 +72,9 @@ namespace JALJ_MIA_ASLlib
                     ast = new ASTOpBinary(m_current, Walk(true), token.type);
                     break;
                 case Language.Symbol.IMPLICA:       // implication operation.
-                case Language.Symbol.EQUIVALENTE: // double implication operation.
+                case Language.Symbol.EQUIVALE: // double implication operation.
                     // double implication has lesser precedence over single implication. 
-                    bool bi = token.type == Language.Symbol.EQUIVALENTE;
+                    bool bi = token.type == Language.Symbol.EQUIVALE;
                     // must continue to parse?
                     bool forward =                  // we continue parsing if...
                         m_implFlag == 0 ||          // ... there is no implications awaiting or ...
