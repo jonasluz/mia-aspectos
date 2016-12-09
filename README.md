@@ -1,5 +1,5 @@
 # mia-fundamentos
-Projetos da disciplina de Fundamentos da Computação do MIA - Unifor.
+Projetos da disciplina de Aspectos Formais da Computação do MIA - Unifor.
 
 ## Analisador Sintático Lógico
 
