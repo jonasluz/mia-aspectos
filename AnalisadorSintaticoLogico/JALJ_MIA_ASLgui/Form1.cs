@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using JALJ_MIA_ASLlib;
 
@@ -34,20 +35,8 @@ namespace JALJ_MIA_ASLgui
 
             // Creates a new analyzer for the expression.
             Analyzer asl = new Analyzer(expr);
-
             // Tokenization phase.
-            if (!asl.Tokenize())
-            { // There are errors from the tokenization. 
-                foreach (string error in asl.Errors)
-                    listBoxErrors.Items.Add(error);
-                string alert = string.Format(
-                    "Há {0} erros identificados. Por favor, revise-os.",
-                    asl.Errors.Count());
-                errorProviderInput.SetError(textBoxInput, alert);
-
-                return;
-            }
-
+            if (!Tokenize(asl)) return;
             // Parsing phase.
             AST ast = asl.Parse();
 
@@ -64,19 +53,8 @@ namespace JALJ_MIA_ASLgui
 
             // Creates a new analyzer for the expression.
             Analyzer asl = new Analyzer(expr);
-
             // Tokenization phase.
-            if (!asl.Tokenize())
-            { // There are errors from the tokenization. 
-                foreach (string error in asl.Errors)
-                    listBoxErrors.Items.Add(error);
-                string alert = string.Format(
-                    "Há {0} erros identificados. Por favor, revise-os.",
-                    asl.Errors.Count());
-                errorProviderInput.SetError(textBoxInput, alert);
-                return;
-            }
-
+            if (!Tokenize(asl)) return;
             // Parsing phase.
             AST ast = CNF.Convert(asl.Parse());
             string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
@@ -103,6 +81,28 @@ namespace JALJ_MIA_ASLgui
         }
 
         #endregion Button actions
+
+        /// <summary>
+        /// Tokenization Phase
+        /// </summary>
+        /// <param name="asl">Syntatic Analyzer</param>
+        /// <returns>If tokenization succedded.</returns>
+        private bool Tokenize(Analyzer asl)
+        {
+            if (!asl.Tokenize())
+            { // There are errors from the tokenization. 
+                foreach (string error in asl.Errors)
+                    listBoxErrors.Items.Add(error);
+                string alert = string.Format(
+                    "Há {0} erros identificados. Por favor, revise-os.",
+                    asl.Errors.Count());
+                errorProviderInput.SetError(textBoxInput, alert);
+
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Fill a treeview node with an AST node.
