@@ -14,6 +14,8 @@ namespace JALJ_MIA_ASLgui
     public partial class FormMain : Form
     {
         TreeFiller m_treeFiller = null;
+        List<CnfOr> m_premisses = new List<CnfOr>();
+        List<CnfOr> m_theorem = new List<CnfOr>();
 
         #region Created by Form Designer
 
@@ -28,7 +30,8 @@ namespace JALJ_MIA_ASLgui
 
         #region Buttons actions
 
-        private void buttonSubmit_Click(object sender, EventArgs e)
+        // Create the Analytic Sintatic Tree.
+        private void buttonAst_Click(object sender, EventArgs e)
         {
             string expr = textBoxInput.Text;    // expression input.
 
@@ -48,6 +51,7 @@ namespace JALJ_MIA_ASLgui
             m_treeFiller.Draw(ast);
         }
 
+        // Convert the formula to Conjunctive Normal Form.
         private void buttonFNC_Click(object sender, EventArgs e)
         {
             string expr = textBoxInput.Text;    // expression input.
@@ -82,6 +86,19 @@ namespace JALJ_MIA_ASLgui
             */
         }
 
+        // Add the formula as a premisse.
+        private void buttonPremisse_Click(object sender, EventArgs e)
+        {
+            ExtractCNFs(treeViewTheory.Nodes[0], ref m_premisses);
+        }
+
+        // Add the theorem
+        private void buttonTheorem_Click(object sender, EventArgs e)
+        {
+            ExtractCNFs(treeViewTheory.Nodes[1], ref m_theorem);
+        }
+
+        // Clear the form.
         private void buttonClear_Click(object sender, EventArgs e)
         {
             // Clear outputs.
@@ -92,6 +109,36 @@ namespace JALJ_MIA_ASLgui
         }
 
         #endregion Button actions
+
+        /// <summary>
+        /// Extract the CNF formulas.
+        /// </summary>
+        /// <returns>An enumerable of formulas in CNF form.</returns>
+        private void ExtractCNFs(TreeNode rootNode, ref List<CnfOr> data)
+        {
+            string expr = textBoxInput.Text;    // expression input.
+
+            tabControl1.SelectedIndex = 2;
+
+            // Creates a new analyzer for the expression.
+            Analyzer asl = new Analyzer(expr);
+            // Tokenization phase.
+            if (!Tokenize(asl)) return;
+            // Parsing phase.
+            AST ast = CNF.Convert(asl.Parse());
+            string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
+
+            IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
+
+            // Add the formula to the node and data.
+            data.AddRange(orClauses);
+            foreach (CnfOr clause in orClauses)
+            {
+                TreeNode node = new TreeNode(clause.ToString());
+                rootNode.Nodes.Add(node);
+            }
+            rootNode.ExpandAll();
+        }
 
         /// <summary>
         /// Tokenization Phase

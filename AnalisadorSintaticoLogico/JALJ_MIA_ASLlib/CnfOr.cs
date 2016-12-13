@@ -35,10 +35,11 @@ namespace JALJ_MIA_ASLlib
             public int CompareTo(object other)
             {
                 Component o = other as Component;
-                return
-                    m_letter < o.m_letter ? -1
-                    : m_letter == o.m_letter ? 0
-                    : 1;
+                int diff = m_letter - o.m_letter;
+                if (diff == 0)
+                    diff = m_negates == o.m_negates ? 0
+                        : m_negates ? -1 : 1;
+                return diff;
             }
         }
 
