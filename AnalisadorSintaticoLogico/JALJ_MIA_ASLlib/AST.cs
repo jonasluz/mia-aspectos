@@ -1,5 +1,9 @@
-﻿namespace JALJ_MIA_ASLlib
+﻿using System;
+
+namespace JALJ_MIA_ASLlib
 {
+    #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
+
     /// <summary>
     /// Abstract Syntax Tree (AST) abstract node.
     /// </summary>
@@ -9,6 +13,9 @@
         /// Default ast string internal format.
         /// </summary>
         public static ASTFormat.FormatType format = ASTFormat.FormatType.TREE;
+
+        // override object.Equals
+        public abstract override bool Equals(object obj);
 
         // public overriding.
         public override string ToString()
@@ -32,6 +39,15 @@
         {
             this.value = value;
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            return this.value == (obj as ASTProp).value;
+        }
     }
 
     /// <summary>
@@ -49,6 +65,15 @@
         {
             this.value = value;
             this.ast = ast;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            ASTOpUnary other = obj as ASTOpUnary;
+            return this.value == other.value && this.ast.Equals(other.ast);
         }
     }
 
@@ -69,5 +94,20 @@
             this.right = right;
             this.value = value;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            ASTOpBinary other = obj as ASTOpBinary;
+            return
+                this.left.Equals(other.left) &&
+                this.right.Equals(other.right) &&
+                this.value == other.value
+              ;
+        }
     }
+
+    #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 }
