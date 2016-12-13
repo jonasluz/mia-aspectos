@@ -76,6 +76,8 @@ namespace JALJ_MIA_ASLlib
 
         #endregion Inner classes
 
+        #region Public functions
+
         /// <summary>
         /// Convert the formula to conjuntive normal form.
         /// </summary>
@@ -148,7 +150,47 @@ namespace JALJ_MIA_ASLlib
             return null;
         }
 
-        #region Private functions.
+        /// <summary>
+        /// Separates a formula in CNF in its OR components clauses.
+        /// </summary>
+        /// <param name="astInCnf">An AST in CNF form.</param>
+        /// <returns>A enumerable of CnfOr clauses.</returns>
+        public static IEnumerable<CnfOr> Separate(AST astInCnf, bool order = false)
+        {
+            List<CnfOr> result = new List<CnfOr>(1);
+
+            switch (astInCnf.GetType().Name)
+            {
+                case "ASTProp":
+                case "ASTOpUnary":
+                    result.Add(new CnfOr(astInCnf));
+                    break;
+                case "ASTOpBinary":
+                    ASTOpBinary opBin = (ASTOpBinary)astInCnf;
+                    switch (opBin.value)
+                    {
+                        case Language.Symbol.OU:        // Form (A|B).
+                            result.Add(new CnfOr(astInCnf));
+                            break;
+                        case Language.Symbol.E:         // Form (A&B).
+                            result.AddRange(Separate(opBin.left));
+                            result.AddRange(Separate(opBin.right));
+                            break;
+                        case Language.Symbol.IMPLICA:   // Form (P->Q).
+                        case Language.Symbol.EQUIVALE: // Form (P<->Q).
+                            throw new System.Exception("AST in CNF separation failed. There can't be other binary operator beside & or | in a formula in CNF.");
+                    }
+                    break;
+            }
+
+            if (order)
+                result.Sort();
+            return result;
+        }
+
+        #endregion Public functions
+
+        #region Private functions
 
         /// <summary>
         /// Distribute formulas from left over right ASTs.
@@ -183,6 +225,6 @@ namespace JALJ_MIA_ASLlib
             return conjunction;
         } // Distribute.
 
-        #endregion Private functions.
+        #endregion Private functions
     }
 }

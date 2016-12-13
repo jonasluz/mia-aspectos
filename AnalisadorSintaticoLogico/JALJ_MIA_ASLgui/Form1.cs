@@ -16,11 +16,14 @@ namespace JALJ_MIA_ASLgui
         TreeFiller m_treeFiller = null;
 
         #region Created by Form Designer
+
         public FormMain()
         {
             InitializeComponent();
         }
-        private void Form1_Load(object sender, EventArgs e) {; }
+
+        private void Form1_Load(object sender, EventArgs e) { ; }
+
         #endregion Created by Form Designer
 
         #region Buttons actions
@@ -58,11 +61,19 @@ namespace JALJ_MIA_ASLgui
             // Parsing phase.
             AST ast = CNF.Convert(asl.Parse());
             string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
+            IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
 
             // Add this formula to the FNC list.
-            richTextBoxCNF.AppendText(expr + " - FNC: ");
-            richTextBoxCNF.SelectionBackColor = Color.AliceBlue;
-            richTextBoxCNF.AppendText(fnc + "\n");
+            RichTextTool rtt = new RichTextTool(ref richTextBoxCNF);
+            rtt.AppendText(expr + " - ");
+            richTextBoxCNF.SelectionBackColor = Color.Aquamarine;
+            rtt.ToggleBold();
+            rtt.AppendText(fnc);
+            richTextBoxCNF.SelectionBackColor = Color.White;
+            rtt.ToggleBold(); rtt.AppendText(" - "); rtt.ToggleBold();
+            richTextBoxCNF.SelectionBackColor = Color.LawnGreen;
+            rtt.AppendText(string.Join(", ", orClauses));
+            rtt.Eol();
 
             // Add the tree to the image.
             /*
