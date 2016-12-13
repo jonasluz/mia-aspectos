@@ -157,6 +157,8 @@ namespace JALJ_MIA_ASLlib
 
         private static string StrPlain(AST ast, bool innerOR = false)
         {
+            if (ast == null) return "CLAÚSULA NULA";
+
             switch (ast.GetType().Name)
             {
                 case "ASTProp":

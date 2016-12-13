@@ -21,7 +21,14 @@ namespace JALJ_MIA_ASLlib
                 this.m_letter = letter;
             }
 
-            public bool opposite(Component other)
+            public AST ToAst()
+            {
+                ASTProp result = new ASTProp(m_letter);
+
+                return (m_negates ? new ASTOpUnary(result, Language.Symbol.NAO) : result as AST);
+            }
+
+            public bool Opposite(Component other)
             {
                 return (other.m_letter == this.m_letter && other.m_negates != this.m_negates);
             }
@@ -41,6 +48,21 @@ namespace JALJ_MIA_ASLlib
                         : m_negates ? -1 : 1;
                 return diff;
             }
+
+            // override object.Equals
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                    return false;
+
+                Component other = obj as Component;
+                return (this.m_letter == other.m_letter && this.m_negates == other.m_negates);
+            }
+            // override object.GetHashCode
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
         }
 
         #endregion Inner structure
@@ -54,7 +76,7 @@ namespace JALJ_MIA_ASLlib
         {
             get
             {
-                return content.Count;
+                return m_content.Count;
             }
         }
 
@@ -71,13 +93,48 @@ namespace JALJ_MIA_ASLlib
 
         #endregion Public attributes
 
-        List<Component> content = new List<Component>(1);
+        List<Component> m_content = new List<Component>(1);
 
         // Constructor.
         public CnfOr(AST astInCNF)
         {
             Extract(astInCNF);
-            content.Sort();
+            m_content.Sort();
+        }
+
+        /// <summary>
+        /// Restore an AST from the CnfOr.
+        /// </summary>
+        /// <returns>The restores AST.</returns>
+        public AST Restore()
+        {
+            if (m_content.Count == 0) return null;
+
+            AST result = null;
+            foreach (Component component in m_content)
+            {
+                result = (
+                    result == null ? component.ToAst()
+                    : new ASTOpBinary(result, component.ToAst(), Language.Symbol.OU)
+                    );
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Simplify this disjunction.
+        /// </summary>
+        public void Simplify()
+        {
+            for (int i = 0; i < m_content.Count; i++)
+                for (int j = i + 1; j < m_content.Count; j++)
+                    if (m_content[i].Equals(m_content[j])) m_content.RemoveAt(j);
+                    else if (m_content[i].Opposite(m_content[j]))
+                    {
+                        m_content.Clear();
+                        return;
+                    }
         }
 
         /// <summary>
@@ -95,7 +152,7 @@ namespace JALJ_MIA_ASLlib
 
         public override string ToString()
         {
-            return string.Join(" | ", content);
+            return string.Join(" | ", m_content);
         }
 
         public int CompareTo(object obj)
@@ -117,7 +174,7 @@ namespace JALJ_MIA_ASLlib
             {
                 case "ASTProp":
                     char letter = (astInCNF as ASTProp).value;
-                    content.Add(new Component(letter));
+                    m_content.Add(new Component(letter));
                     break;
                 case "ASTOpUnary":
                     ASTOpUnary astNeg = astInCNF as ASTOpUnary;
@@ -126,7 +183,7 @@ namespace JALJ_MIA_ASLlib
                         throw new Exception("Error creating a CnfOr : In CNF form, the negation can only refers to a simple proposition.");
                     }
                     letter = (astNeg.ast as ASTProp).value;
-                    content.Add(new Component(letter, true));
+                    m_content.Add(new Component(letter, true));
                     break;
                 case "ASTOpBinary":
                     ASTOpBinary opBin = astInCNF as ASTOpBinary;

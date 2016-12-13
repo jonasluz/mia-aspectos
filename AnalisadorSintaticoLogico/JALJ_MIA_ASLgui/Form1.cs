@@ -76,7 +76,7 @@ namespace JALJ_MIA_ASLgui
             richTextBoxCNF.SelectionBackColor = Color.White;
             rtt.ToggleBold(); rtt.AppendText(" - "); rtt.ToggleBold();
             richTextBoxCNF.SelectionBackColor = Color.LawnGreen;
-            rtt.AppendText(string.Join(", ", orClauses));
+            if (orClauses != null) rtt.AppendText(string.Join(", ", orClauses));
             rtt.Eol();
 
             // Add the tree to the image.

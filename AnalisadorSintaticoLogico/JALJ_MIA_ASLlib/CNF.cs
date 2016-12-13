@@ -23,14 +23,10 @@ namespace JALJ_MIA_ASLlib
             {
                 get
                 {
-                    if (m_formulas == null)
-                    {
-                        m_formulas = new List<AST>(1);
-                        Extract();
-                    }
                     return m_formulas;
                 }
             }
+
             AST m_formula = null;   // Formula to extract partial formulas from.
             List<AST> m_formulas;   // Extracted formulas.
 
@@ -38,6 +34,7 @@ namespace JALJ_MIA_ASLlib
             public Extractor(AST formula)
             {
                 m_formula = formula;
+                Extract();
             }
 
             /// <summary>
@@ -46,6 +43,7 @@ namespace JALJ_MIA_ASLlib
             /// <param name="branch">The current branch to extract from</param>
             private void Extract(AST branch = null)
             {
+                if (m_formulas == null) m_formulas = new List<AST>();
                 AST current = branch != null ? branch : m_formula;
 
                 switch (current.GetType().Name)
@@ -53,7 +51,7 @@ namespace JALJ_MIA_ASLlib
                     case "ASTProp":
                     case "ASTOpUnary":
                         m_formulas.Add(current);
-                        return;
+                        break;
                     case "ASTOpBinary":
                         ASTOpBinary binOp = (ASTOpBinary)current;
                         switch (binOp.value)
@@ -64,9 +62,8 @@ namespace JALJ_MIA_ASLlib
                                 break;
                             case Language.Symbol.OU:    // Already a disjuction. Extraction must return.
                                 m_formulas.Add(current);
-                                return;
+                                break;
                             default:                    // There should not be other symbols in an CNF formula.
-                                // TODO: throw some error here.
                                 break;
                         }
                         break;
@@ -157,6 +154,8 @@ namespace JALJ_MIA_ASLlib
         /// <returns>A enumerable of CnfOr clauses.</returns>
         public static IEnumerable<CnfOr> Separate(AST astInCnf, bool order = false)
         {
+            if (astInCnf == null) return null;
+
             List<CnfOr> result = new List<CnfOr>(1);
 
             switch (astInCnf.GetType().Name)
@@ -200,19 +199,24 @@ namespace JALJ_MIA_ASLlib
         /// <returns>A new AST representing left OR right</returns>
         private static AST Distribute(AST left, AST right)
         {
+            if (left == null) return right;
+            if (right == null) return left;
+
             // left and right must be already in CNF.
             IEnumerable<AST> leftFormulas = new Extractor(left).Formulas;
             IEnumerable<AST> rightFormulas = new Extractor(right).Formulas;
-
+            
             // Distribute the formulas, creating the disjunctions list.
-            List<AST> disjunctions = new List<AST>(1);
+            List<AST> disjunctions = new List<AST>();
             foreach (AST lf in leftFormulas)
                 foreach (AST rf in rightFormulas)
                 {
                     AST disjunction = 
-                        lf.Equals(rf) ? lf :
-                        new ASTOpBinary(lf, rf, Language.Symbol.OU);
-                    disjunctions.Add(disjunction);
+                        lf.Equals(rf) ? lf
+                        //: lf.Negation().Equals(rf) ? null
+                        : new ASTOpBinary(lf, rf, Language.Symbol.OU);
+                    disjunction = Simplify(disjunction);
+                    if (disjunction != null) disjunctions.Add(disjunction);
                 }
 
             // Joins the disjuction list, creating the general conjunction.
@@ -226,6 +230,13 @@ namespace JALJ_MIA_ASLlib
 
             return conjunction;
         } // Distribute.
+
+        private static AST Simplify(AST disjunction)
+        {
+            CnfOr cnf = new CnfOr(disjunction);
+            cnf.Simplify();
+            return cnf.Restore();
+        }
 
         #endregion Private functions
     }
