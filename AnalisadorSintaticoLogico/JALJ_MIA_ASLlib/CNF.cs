@@ -90,7 +90,7 @@ namespace JALJ_MIA_ASLlib
                 case "ASTProp":
                     return ast;
                 case "ASTOpBinary":
-                    ASTOpBinary opBin = (ASTOpBinary)ast;
+                    ASTOpBinary opBin = ast as ASTOpBinary;
                     switch (opBin.value)
                     {
                         case Language.Symbol.E:         // Form (P&Q).
@@ -124,7 +124,7 @@ namespace JALJ_MIA_ASLlib
                         case "ASTProp":         // Form ~P ... return ~P
                             return ast;
                         case "ASTOpUnary":      // Form ~(~P) - double negation ... return Convert(P)
-                            return Convert(((ASTOpUnary)p).ast);
+                            return Convert((p as ASTOpUnary).ast);
                         case "ASTOpBinary":
                             opBin = (ASTOpBinary)p;
                             Language.Symbol op = opBin.value;
@@ -209,7 +209,9 @@ namespace JALJ_MIA_ASLlib
             foreach (AST lf in leftFormulas)
                 foreach (AST rf in rightFormulas)
                 {
-                    AST disjunction = new ASTOpBinary(lf, rf, Language.Symbol.OU);
+                    AST disjunction = 
+                        lf.Equals(rf) ? lf :
+                        new ASTOpBinary(lf, rf, Language.Symbol.OU);
                     disjunctions.Add(disjunction);
                 }
 
