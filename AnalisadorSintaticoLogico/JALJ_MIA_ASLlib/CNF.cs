@@ -159,6 +159,8 @@ namespace JALJ_MIA_ASLlib
         {
             List<CnfOr> result = new List<CnfOr>(1);
 
+            // TODO: considerar cláusula nula.
+
             switch (astInCnf.GetType().Name)
             {
                 case "ASTProp":
@@ -200,19 +202,23 @@ namespace JALJ_MIA_ASLlib
         /// <returns>A new AST representing left OR right</returns>
         private static AST Distribute(AST left, AST right)
         {
+            if (left == null) return right;
+            if (right == null) return left;
+
             // left and right must be already in CNF.
             IEnumerable<AST> leftFormulas = new Extractor(left).Formulas;
             IEnumerable<AST> rightFormulas = new Extractor(right).Formulas;
 
             // Distribute the formulas, creating the disjunctions list.
-            List<AST> disjunctions = new List<AST>(1);
+            List<AST> disjunctions = new List<AST>();
             foreach (AST lf in leftFormulas)
                 foreach (AST rf in rightFormulas)
                 {
                     AST disjunction = 
-                        lf.Equals(rf) ? lf :
-                        new ASTOpBinary(lf, rf, Language.Symbol.OU);
-                    disjunctions.Add(disjunction);
+                        lf.Equals(rf) ? lf
+                        : lf.Negation().Equals(rf) ? null
+                        : new ASTOpBinary(lf, rf, Language.Symbol.OU);
+                    if (disjunction != null) disjunctions.Add(disjunction);
                 }
 
             // Joins the disjuction list, creating the general conjunction.

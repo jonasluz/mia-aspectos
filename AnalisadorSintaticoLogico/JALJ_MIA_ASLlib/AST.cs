@@ -14,6 +14,15 @@ namespace JALJ_MIA_ASLlib
         /// </summary>
         public static ASTFormat.FormatType format = ASTFormat.FormatType.TREE;
 
+        /// <summary>
+        /// Negate this AST.
+        /// </summary>
+        /// <returns>This AST negation.</returns>
+        public AST Negation()
+        {
+            return new ASTOpUnary(this, Language.Symbol.NAO);
+        }
+
         // override object.Equals
         public abstract override bool Equals(object obj);
 
