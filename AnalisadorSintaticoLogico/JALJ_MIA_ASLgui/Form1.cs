@@ -14,8 +14,8 @@ namespace JALJ_MIA_ASLgui
     public partial class FormMain : Form
     {
         TreeFiller m_treeFiller = null;
-        List<CnfOr> m_premisses = new List<CnfOr>();
-        List<CnfOr> m_theorem = new List<CnfOr>();
+        List<MultipleDisjunction> m_premisses = new List<MultipleDisjunction>();
+        List<MultipleDisjunction> m_theorem = new List<MultipleDisjunction>();
 
         #region Created by Form Designer
 
@@ -65,7 +65,8 @@ namespace JALJ_MIA_ASLgui
             // Parsing phase.
             AST ast = CNF.Convert(asl.Parse());
             string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
-            IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
+            CNFProposition cnf = new CNFProposition(ast);
+            //IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
 
             // Add this formula to the FNC list.
             RichTextTool rtt = new RichTextTool(ref richTextBoxCNF);
@@ -76,7 +77,7 @@ namespace JALJ_MIA_ASLgui
             richTextBoxCNF.SelectionBackColor = Color.White;
             rtt.ToggleBold(); rtt.AppendText(" - "); rtt.ToggleBold();
             richTextBoxCNF.SelectionBackColor = Color.LawnGreen;
-            if (orClauses != null) rtt.AppendText(string.Join(", ", orClauses));
+            rtt.AppendText(cnf.ToString());
             rtt.Eol();
 
             // Add the tree to the image.
@@ -114,7 +115,7 @@ namespace JALJ_MIA_ASLgui
         /// Extract the CNF formulas.
         /// </summary>
         /// <returns>An enumerable of formulas in CNF form.</returns>
-        private void ExtractCNFs(TreeNode rootNode, ref List<CnfOr> data)
+        private void ExtractCNFs(TreeNode rootNode, ref List<MultipleDisjunction> data)
         {
             string expr = textBoxInput.Text;    // expression input.
 
@@ -126,13 +127,15 @@ namespace JALJ_MIA_ASLgui
             if (!Tokenize(asl)) return;
             // Parsing phase.
             AST ast = CNF.Convert(asl.Parse());
-            string fnc = ASTFormat.Format(ast, ASTFormat.FormatType.PLAIN);
+            CNFProposition cnf = new CNFProposition(ast);
+            string fnc = ast.ToString();
 
-            IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
+            //IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
+            IEnumerable<MultipleDisjunction> orClauses = cnf.Props;
 
             // Add the formula to the node and data.
             data.AddRange(orClauses);
-            foreach (CnfOr clause in orClauses)
+            foreach (var clause in orClauses)
             {
                 TreeNode node = new TreeNode(clause.ToString());
                 rootNode.Nodes.Add(node);
