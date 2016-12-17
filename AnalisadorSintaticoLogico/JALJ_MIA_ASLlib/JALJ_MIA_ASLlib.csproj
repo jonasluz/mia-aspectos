@@ -45,6 +45,7 @@
     <Compile Include="ASTFormat.cs" />
     <Compile Include="CNF.cs" />
     <Compile Include="CnfOr.cs" />
+    <Compile Include="Proposition.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

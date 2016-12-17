@@ -3,7 +3,7 @@
 namespace JALJ_MIA_ASLlib
 {
     /// <summary>
-    /// Conjuntive normal form (CNF) conversion.
+    /// Conjunctive normal form (CNF) conversion.
     /// </summary>
     /// <see cref="http://cs.jhu.edu/~jason/tutorials/convert-to-CNF"/>
     public abstract class CNF
@@ -17,7 +17,7 @@ namespace JALJ_MIA_ASLlib
         private class Extractor
         {
             /// <summary>
-            /// An enumerable sequence o the extracted formulas.
+            /// An enumerable sequence of the extracted formulas.
             /// </summary>
             public IEnumerable<AST> Formulas
             {
@@ -115,7 +115,7 @@ namespace JALJ_MIA_ASLlib
                     }
                     break;
                 case "ASTOpUnary":
-                    AST p = ((ASTOpUnary)ast).ast;
+                    AST p = (ast as ASTOpUnary).ast;
                     switch (p.GetType().Name)
                     {
                         case "ASTProp":         // Form ~P ... return ~P
@@ -213,7 +213,6 @@ namespace JALJ_MIA_ASLlib
                 {
                     AST disjunction = 
                         lf.Equals(rf) ? lf
-                        //: lf.Negation().Equals(rf) ? null
                         : new ASTOpBinary(lf, rf, Language.Symbol.OU);
                     disjunction = Simplify(disjunction);
                     if (disjunction != null) disjunctions.Add(disjunction);
