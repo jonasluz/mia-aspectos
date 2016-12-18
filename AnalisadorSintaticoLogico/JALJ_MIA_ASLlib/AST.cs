@@ -12,7 +12,7 @@ namespace JALJ_MIA_ASLlib
         /// <summary>
         /// Default ast string internal format.
         /// </summary>
-        public static ASTFormat.FormatType format = ASTFormat.FormatType.TREE;
+        public static ASTFormat.FormatType format = ASTFormat.FormatType.PLAIN;
 
         /// <summary>
         /// Negate this AST.

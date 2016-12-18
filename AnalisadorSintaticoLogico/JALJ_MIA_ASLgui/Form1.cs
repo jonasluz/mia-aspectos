@@ -16,6 +16,7 @@ namespace JALJ_MIA_ASLgui
         TreeFiller m_treeFiller = null;
         List<MultipleDisjunction> m_premisses = new List<MultipleDisjunction>();
         List<MultipleDisjunction> m_theorem = new List<MultipleDisjunction>();
+        ATP atp = new ATP(); 
 
         #region Created by Form Designer
 
@@ -96,7 +97,7 @@ namespace JALJ_MIA_ASLgui
         // Add the theorem
         private void buttonTheorem_Click(object sender, EventArgs e)
         {
-            ExtractCNFs(treeViewTheory.Nodes[1], ref m_theorem);
+            ExtractCNFs(treeViewTheory.Nodes[1], ref m_theorem, true);
         }
 
         // Clear the form.
@@ -112,10 +113,20 @@ namespace JALJ_MIA_ASLgui
         #endregion Button actions
 
         /// <summary>
+        /// Report the proof state.
+        /// </summary>
+        /// <param name="message">Message from the proof.</param>
+        public void Report(string message)
+        {
+            RichTextTool rtt = new RichTextTool(ref richTextBoxResolution);
+            rtt.AppendText(message);
+        }
+
+        /// <summary>
         /// Extract the CNF formulas.
         /// </summary>
         /// <returns>An enumerable of formulas in CNF form.</returns>
-        private void ExtractCNFs(TreeNode rootNode, ref List<MultipleDisjunction> data)
+        private void ExtractCNFs(TreeNode rootNode, ref List<MultipleDisjunction> data, bool andProve = false)
         {
             string expr = textBoxInput.Text;    // expression input.
 
@@ -129,6 +140,13 @@ namespace JALJ_MIA_ASLgui
             AST ast = CNF.Convert(asl.Parse());
             CNFProposition cnf = new CNFProposition(ast);
             string fnc = ast.ToString();
+            if (andProve)
+            {
+                atp.Theorem = cnf;
+                atp.ProveIt(new ATP.ReportDelegate(Report));
+            }
+            else
+                atp.AddPremisse(cnf);
 
             //IEnumerable<CnfOr> orClauses = CNF.Separate(ast, true);
             IEnumerable<MultipleDisjunction> orClauses = cnf.Props;
@@ -207,6 +225,5 @@ namespace JALJ_MIA_ASLgui
             errorProviderInput.SetError(textBoxInput, null);
             listBoxErrors.Items.Clear();
         }
-
     }
 }

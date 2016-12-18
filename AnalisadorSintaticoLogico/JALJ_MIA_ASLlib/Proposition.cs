@@ -9,6 +9,8 @@ namespace JALJ_MIA_ASLlib
     /// </summary>
     public abstract class Proposition: IComparable
     {
+        #region Public static functions
+
         // Transitional function. Convert from AST.
         public static Proposition FromAST(AST ast)
         {
@@ -41,6 +43,10 @@ namespace JALJ_MIA_ASLlib
             return null;
         }
 
+        #endregion Public static functions
+
+        #region Public functions
+
         /// <summary>
         /// Common negation. 
         /// </summary>
@@ -50,8 +56,20 @@ namespace JALJ_MIA_ASLlib
             return new NegationProposition(this);
         }
 
-        public abstract int CompareTo(object obj);
+        /// <summary>
+        /// Compare if this proposition negates other.
+        /// </summary>
+        /// <param name="other">Proposition to compare negation to</param>
+        /// <returns>If this proposition negates the other one</returns>
+        public virtual bool Negates(Proposition other)
+        {
+            return this.Negated().Equals(other);
+        }
 
+        #endregion Public functions
+
+        public abstract override bool Equals(object obj);
+        public abstract int CompareTo(object obj);
     } // Proposition class
 
     /// <summary>
@@ -110,6 +128,7 @@ namespace JALJ_MIA_ASLlib
 
         public override int CompareTo(object obj)
         {
+            if (obj == null) return 1;
             SingleProposition other = obj as SingleProposition;
             return this.Letter.CompareTo(other.Letter);
         }
@@ -175,6 +194,7 @@ namespace JALJ_MIA_ASLlib
 
         public override int CompareTo(object obj)
         {
+            if (obj == null) return 1;
             UnaryOperation other = obj as UnaryOperation;
             return this.P.CompareTo(other.P);
         }
@@ -241,6 +261,7 @@ namespace JALJ_MIA_ASLlib
 
         public override int CompareTo(object obj)
         {
+            if (obj == null) return 1;
             BinaryOperation other = obj as BinaryOperation;
             return this.Left.CompareTo(other.Left) * 10 + this.Right.CompareTo(other.Right);
         }
@@ -261,7 +282,7 @@ namespace JALJ_MIA_ASLlib
                 return m_props;
             }
         }
-        protected List<Proposition> m_props;
+        protected List<Proposition> m_props = new List<Proposition>();
 
         public abstract void Simplify();
 
@@ -279,6 +300,8 @@ namespace JALJ_MIA_ASLlib
         {
             if (prop is BinaryOperation)
                 m_props = new List<Proposition>(Plainify(prop));
+            else
+                m_props.Add(prop);
         }
         // transitional constructor.
         public MultipleOperation(AST ast, Language.Symbol oper = Language.Symbol.INVALIDO)
@@ -312,6 +335,7 @@ namespace JALJ_MIA_ASLlib
 
         public override int CompareTo(object obj)
         {
+            if (obj == null) return 1;
             MultipleOperation other = obj as MultipleOperation;
             return this.m_props.Count() - other.m_props.Count();
         }
@@ -344,6 +368,8 @@ namespace JALJ_MIA_ASLlib
 
         protected IEnumerable<Proposition> ConvertFromAST(AST ast, Language.Symbol oper)
         {
+            if (ast == null) return null;
+
             List<Proposition> result = new List<Proposition>();
             string type = ast.GetType().Name;
             if (type == "ASTOpBinary")
@@ -535,6 +561,11 @@ namespace JALJ_MIA_ASLlib
     /// </summary>
     public class CNFProposition: MultipleConjunction
     {
+        public AST Ast
+        {
+            get; private set;
+        }
+
         public new IEnumerable<MultipleDisjunction> Props
         {
             get
@@ -549,12 +580,16 @@ namespace JALJ_MIA_ASLlib
         // Transition constructor. Creates a CNFProposition from an AST.
         public CNFProposition(AST ast)
         {
+            this.Ast = ast;
             ast = CNF.Convert(ast);
             IEnumerable<Proposition> orClauses = ConvertFromAST(ast, Language.Symbol.E);
+            if (orClauses == null) return;
+
             foreach(Proposition orClause in orClauses)
                 m_props.Add(new MultipleDisjunction(orClause));
             m_props.Sort();
         }
+        protected CNFProposition(IEnumerable<MultipleDisjunction> props):base(props) { }
 
         public override string ToString()
         {
