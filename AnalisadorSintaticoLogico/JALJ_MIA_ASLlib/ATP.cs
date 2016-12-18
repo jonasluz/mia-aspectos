@@ -11,6 +11,16 @@ namespace JALJ_MIA_ASLlib
     /// </summary>
     public class ATP
     {
+        private struct TestedPair
+        {
+            int first, second;
+
+            public TestedPair(int first, int second)
+            {
+                this.first = first; this.second = second;
+            }
+        }
+
         public delegate void ReportDelegate(string message);
 
         public IDictionary<string, CNFProposition> Premisses
@@ -68,14 +78,55 @@ namespace JALJ_MIA_ASLlib
             List<MultipleDisjunction> clauses = new List<MultipleDisjunction>();
             foreach (CNFProposition premisse in Premisses.Values)
                 clauses.AddRange(premisse.Props);
+            clauses.AddRange(m_theoremNegation.Props);
             clauses.Sort();
-            string premissesStr = "Premissas em FNC:";
+            string premissesStr = "Cláusulas (premissas + negação do teorema):";
             int premisseCount = 0;
             foreach (MultipleDisjunction premisse in clauses)
                 premissesStr += string.Format("\n({0}) {1}", ++premisseCount, premisse);
             report(premissesStr + "\n");
 
-            //Procura...
+            // Evaluate Resolutions.
+            report("\n=====================\nTentando provar...\n------------------\n\n");
+            List<TestedPair> tested = new List<TestedPair>();
+            bool solved = false;
+            for (int i = 0; i < clauses.Count; i++)
+            {
+                for (int j = 0; j < clauses.Count; j++)
+                {
+                    if (i == j) continue;
+
+                    TestedPair pair = new TestedPair(i, j);
+                    if (tested.Contains(pair)) continue;
+                    else tested.Add(pair);
+
+                    MultipleDisjunction resolvent = clauses[i].ApplyResolution(clauses[j]);
+                    if (resolvent == null) continue; // complementaries not found.
+                    solved = resolvent.ISNullClause;
+                    if (solved)
+                    {
+                        report(string.Format(
+                            "Cláusula nula encontrada da aplicação de {0} em {1}.\n",
+                            j + 1, i + 1
+                          ));
+                        break;
+                    }
+                    if (clauses.Contains(resolvent)) continue;
+                    clauses.Add(resolvent);
+                    report(string.Format(
+                        "({0}) {1} :: De {2} em {3}.\n",
+                        clauses.Count, 
+                        resolvent.ToString(),
+                        j + 1, i + 1
+                      ));
+                    i = j = 0;
+                }
+                if (solved) break;
+            }
+
+            report("\n\n==================\n");
+            report(solved ? "TEOREMA PROVADO!" : "NÃO FOI POSSÍVEL PROVAR A TEORIA!");
+            report("\n==================\n\n");
         }
     } // ATP
 
