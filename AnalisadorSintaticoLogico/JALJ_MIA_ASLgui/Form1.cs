@@ -106,6 +106,11 @@ namespace JALJ_MIA_ASLgui
             // Clear outputs.
             pictureBoxTree.Image = null;
             richTextBoxCNF.Clear();
+            richTextBoxResolution.Clear();
+            m_premisses.Clear();
+            m_theorem.Clear();
+            treeViewTheory.Nodes[0].Nodes.Clear();
+            treeViewTheory.Nodes[1].Nodes.Clear();
             // Clear errors.
             ClearErrorMsgs();
         }
