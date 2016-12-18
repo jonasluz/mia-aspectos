@@ -82,6 +82,8 @@ namespace JALJ_MIA_ASLlib
         /// <returns>formula in CNF.</returns>
         public static AST Convert(AST ast)
         {
+            if (ast == null) return ast;
+
             switch (ast.GetType().Name)
             {
                 case "ASTProp":
