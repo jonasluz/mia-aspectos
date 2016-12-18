@@ -130,11 +130,6 @@ namespace JALJ_MIA_ASLlib
             for (int i = 0; i < m_content.Count; i++)
                 for (int j = i + 1; j < m_content.Count; j++)
                     if (m_content[i].Equals(m_content[j])) m_content.RemoveAt(j);
-                    else if (m_content[i].Opposite(m_content[j]))
-                    {
-                        m_content.Clear();
-                        return;
-                    }
         }
 
         /// <summary>
