@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Premissas");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Teorema");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Deduções");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Premissas");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Teorema");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Deduções");
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanelInput = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxInput = new System.Windows.Forms.TextBox();
@@ -52,6 +52,7 @@
             this.richTextBoxResolution = new System.Windows.Forms.RichTextBox();
             this.listBoxErrors = new System.Windows.Forms.ListBox();
             this.errorProviderInput = new System.Windows.Forms.ErrorProvider(this.components);
+            this.toolTipInput = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
@@ -114,6 +115,8 @@
             this.textBoxInput.Name = "textBoxInput";
             this.textBoxInput.Size = new System.Drawing.Size(476, 29);
             this.textBoxInput.TabIndex = 0;
+            this.toolTipInput.SetToolTip(this.textBoxInput, "Use letras minúsculas, parênteses e os caracteres & (and), | (or), ~ ! (não), > (" +
+        "implica) e = (equivale)");
             // 
             // buttonAST
             // 
@@ -160,6 +163,7 @@
             this.buttonTheorem.Size = new System.Drawing.Size(82, 29);
             this.buttonTheorem.TabIndex = 5;
             this.buttonTheorem.Text = "Teorema";
+            this.toolTipInput.SetToolTip(this.buttonTheorem, "Use apenas após já ter inserido todas as premissas.");
             this.buttonTheorem.UseVisualStyleBackColor = true;
             this.buttonTheorem.Click += new System.EventHandler(this.buttonTheorem_Click);
             // 
@@ -282,22 +286,22 @@
             this.treeViewTheory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewTheory.Location = new System.Drawing.Point(0, 0);
             this.treeViewTheory.Name = "treeViewTheory";
-            treeNode4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            treeNode4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            treeNode4.Name = "NodePremisses";
-            treeNode4.Text = "Premissas";
-            treeNode5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            treeNode5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            treeNode5.Name = "NodeTheorem";
-            treeNode5.Text = "Teorema";
-            treeNode6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            treeNode6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            treeNode6.Name = "NodeDeductions";
-            treeNode6.Text = "Deduções";
+            treeNode22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            treeNode22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            treeNode22.Name = "NodePremisses";
+            treeNode22.Text = "Premissas";
+            treeNode23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            treeNode23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            treeNode23.Name = "NodeTheorem";
+            treeNode23.Text = "Teorema";
+            treeNode24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            treeNode24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            treeNode24.Name = "NodeDeductions";
+            treeNode24.Text = "Deduções";
             this.treeViewTheory.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5,
-            treeNode6});
+            treeNode22,
+            treeNode23,
+            treeNode24});
             this.treeViewTheory.Size = new System.Drawing.Size(313, 387);
             this.treeViewTheory.TabIndex = 1;
             // 
@@ -326,6 +330,16 @@
             // errorProviderInput
             // 
             this.errorProviderInput.ContainerControl = this;
+            // 
+            // toolTipInput
+            // 
+            this.toolTipInput.AutomaticDelay = 100;
+            this.toolTipInput.AutoPopDelay = 7000;
+            this.toolTipInput.InitialDelay = 100;
+            this.toolTipInput.IsBalloon = true;
+            this.toolTipInput.ReshowDelay = 20;
+            this.toolTipInput.ShowAlways = true;
+            this.toolTipInput.ToolTipTitle = "Sintaxe";
             // 
             // FormMain
             // 
@@ -383,6 +397,7 @@
         private System.Windows.Forms.SplitContainer splitContainerATP;
         private System.Windows.Forms.Button buttonPremisse;
         private System.Windows.Forms.Button buttonTheorem;
+        private System.Windows.Forms.ToolTip toolTipInput;
     }
 }
 
