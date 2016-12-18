@@ -68,7 +68,6 @@ namespace JALJ_MIA_ASLlib
 
         #endregion Public functions
 
-        public abstract override bool Equals(object obj);
         public abstract int CompareTo(object obj);
     } // Proposition class
 
@@ -117,7 +116,7 @@ namespace JALJ_MIA_ASLlib
                 return false;
 
             SingleProposition other = obj as SingleProposition;
-            return other.Letter == this.Letter;
+            return other.Letter.Equals(this.Letter);
         }
 
         // override object.GetHashCode
@@ -275,6 +274,14 @@ namespace JALJ_MIA_ASLlib
     /// </summary>
     public abstract class MultipleOperation: Proposition
     {
+        public bool ISNullClause
+        {
+            get
+            {
+                return m_props.Count() == 0;
+            }
+        }
+
         public IEnumerable<Proposition> Props
         {
             get
@@ -390,7 +397,7 @@ namespace JALJ_MIA_ASLlib
 
         protected string ToStringImpl(string oper)
         {
-            if (m_props.Count() == 0) return "";
+            if (m_props.Count() == 0) return "[]";
             string result = m_props.First().ToString();
             foreach(var prop in m_props)
             {
@@ -545,9 +552,35 @@ namespace JALJ_MIA_ASLlib
         // transitional constructor.
         public MultipleDisjunction(AST ast): base(ast, Language.Symbol.OU) { }
 
+        /// <summary>
+        /// Applies the Resolution technic.
+        /// </summary>
+        /// <param name="other">other disjunction to apply.</param>
+        /// <returns>the resoluted disjunction if found</returns>
+        public MultipleDisjunction ApplyResolution(MultipleDisjunction other)
+        {
+            List<Proposition> result = new List<Proposition>(m_props);
+            result.AddRange(other.m_props);
+
+            foreach (Proposition p in m_props)
+                foreach (Proposition q in other.m_props)
+                    if (p.Negated().Equals(q) || q.Negated().Equals(p))
+                    {
+                        result.Remove(p);
+                        result.Remove(q);
+                        MultipleDisjunction md = new MultipleDisjunction(result);
+                        md.Simplify();
+                        return md;
+                    }
+
+            return null; // A resolution wasn't found.
+        }
+
         public override void Simplify()
         {
-            m_props = new List<Proposition>(m_props.Distinct());
+            for (int i = 0; i < m_props.Count; i++)
+                for (int j = i + 1; j < m_props.Count; j++)
+                    if (m_props[i].Equals(m_props[j])) m_props.RemoveAt(j);
         }
 
         public override string ToString()

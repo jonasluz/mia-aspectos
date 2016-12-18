@@ -103,6 +103,7 @@ namespace JALJ_MIA_ASLgui
         // Clear the form.
         private void buttonClear_Click(object sender, EventArgs e)
         {
+            atp = new ATP();
             // Clear outputs.
             pictureBoxTree.Image = null;
             richTextBoxCNF.Clear();
@@ -148,7 +149,10 @@ namespace JALJ_MIA_ASLgui
             if (andProve)
             {
                 atp.Theorem = cnf;
-                atp.ProveIt(new ATP.ReportDelegate(Report));
+                bool proved = atp.ProveIt(new ATP.ReportDelegate(Report));
+                string msg = proved ? "TEOREMA PROVADO!" : "NÃO CONSEGUI PROVAR A TEORIA";
+                MessageBoxIcon icon = proved ? MessageBoxIcon.Asterisk : MessageBoxIcon.Warning;
+                MessageBox.Show(msg, "Resultado", MessageBoxButtons.OK, icon);
             }
             else
                 atp.AddPremisse(cnf);
